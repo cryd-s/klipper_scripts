@@ -9,7 +9,9 @@ Only the physical properties are being tested. These can be used, for example, f
 - Copy the speed_test_cartesian or speed_test_corexy into your config and rename the file to speed_test.cfg.
 - Add [include speed_test.cfg] and [respond] to your printer.cfg file.
 - Backup the Stepper.py file in the home/pi/klipper/klippy/ directory.
-- Overwrite the Klipper file stepper.py with this command (using Putty): curl 'https://raw.githubusercontent.com/Fragmon/Speed_Accel_Test/main/stepper.py' > ~/klipper/klippy/stepper.py, and then restart Klipper using this command: sudo systemctl restart klipper.
+- Overwrite the Klipper file stepper.py with this command (using Putty):
+  ``curl 'https://raw.githubusercontent.com/Fragmon/Speed_Accel_Test/main/stepper.py' > ~/klipper/klippy/stepper.py``,
+  and then restart Klipper using this command: sudo systemctl restart klipper.
 
 # Explanation of the Macros:
 ## CAUTION -- The macros can only be stopped by emergency stop
