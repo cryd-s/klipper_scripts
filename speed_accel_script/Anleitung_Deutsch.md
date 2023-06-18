@@ -12,7 +12,7 @@ Dabei werden nur die physischen Eigenschaften getestet. Diese können bspw. für
 - Kopiere die speed_test_cartesian oder speed_test_corexy in deine Config und benenne die Datei in speed_test.cfg um.
 - Füge ``[include speed_test.cfg]`` und ``[respond]`` in deiner printer.cfg ein
 - Sichere dir im Ordner ``home/pi/klipper/klippy/`` die ``Stepper.py`` als Backup.
-- Überschreiben die Klipper Datei  ``stepper.py``mit diesem Befehl (putty). ```curl 'https://raw.githubusercontent.com/Fragmon/Speed_Accel_Test/main/stepper.py' > ~/klipper/klippy/stepper.py``` und starte danach Klipper über diesen Befehl neu```sudo systemctl restart klipper```
+- Überschreiben die Klipper Datei  ``stepper.py``mit diesem Befehl (putty). ```curl 'https://raw.githubusercontent.com/cryd-s/klipper_scripts/main/speed_accel_script/stepper.py' > ~/klipper/klippy/stepper.py`` und starte danach Klipper über diesen Befehl neu```sudo systemctl restart klipper```
 
 # Erläuterung zu den Makros:
 
