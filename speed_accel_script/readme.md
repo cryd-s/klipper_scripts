@@ -6,7 +6,7 @@ Only the physical properties are being tested. These can be used, for example, f
 
 # Preparation:
 - Ensure that the 3D printer is correctly set up and all axes are free to move.
-- Copy the speed_test_cartesian or speed_test_corexy into your config and rename the file to speed_test.cfg.
+- Copy the speed_test.cfg file into your configuration and select your printer type within the file (cartesian or corexy).
 - Add [include speed_test.cfg] and [respond] to your printer.cfg file.
 - Backup the Stepper.py file in the home/pi/klipper/klippy/ directory.
 - Overwrite the Klipper file stepper.py with this command (using Putty):
