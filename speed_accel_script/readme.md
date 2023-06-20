@@ -2,7 +2,7 @@
 The macros MAX_VELOCITY_TEST, MAX_ACCEL_TEST, and BENCHMARK have been developed to test the maximum acceleration and velocity of the 3D printer along the X and Y axes. They perform a series of test movements at different acceleration and velocity values to examine the printer's performance under different settings.
 
 ## CAUTION:
-Only the physical properties are being tested. These can be used, for example, for travel movements. Whether these values can be realized by the hotend must be determined separately. For this macro, the stepper.py (thx to "@Piezoid") file currently needs to be replaced. This can prevent KIAUH from updating. Before an update, the original stepper.py file should be restored, and after the update, it should be replaced again. We are currently working on integrating this functionality into the standard Klipper so that this step can be eliminated.
+Only the physical properties are being tested. These can be used, for example, for travel movements. Whether these values can be realized by the hotend must be determined separately. For this macro, the stepper.py (thx to @Piezoid) file currently needs to be replaced. This can prevent KIAUH from updating. Before an update, the original stepper.py file should be restored, and after the update, it should be replaced again. We are currently working on integrating this functionality into the standard Klipper so that this step can be eliminated.
 
 # Preparation:
 - Ensure that the 3D printer is correctly set up and all axes are free to move.
