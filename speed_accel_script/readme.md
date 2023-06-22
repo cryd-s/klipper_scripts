@@ -17,6 +17,8 @@ Only the physical properties are being tested. These can be used, for example, f
 - ``curl 'https://raw.githubusercontent.com/cryd-s/klipper_scripts/main/speed_accel_script/stepper.py' > ~/klipper/klippy/stepper.py``,
   and then restart Klipper using this command: sudo systemctl restart klipper.
 
+Klipper now shows under [machine] as Dirty. This is because the file no longer matches the original. The problem will be resolved once these functions have been integrated into the original Klipper.
+
 # Explanation of the Macros:
 ## CAUTION -- The macros can only be stopped by emergency stop
 
