@@ -233,8 +233,6 @@ class MCU_stepper:
     def get_status(self, eventtime):
         return {
             'mcu_position': self.get_mcu_position(),
-            'step_dist': self._step_dist,
-            'mcu_position_offset': self._mcu_position_offset
          }
 
 # Helper code to build a stepper object from a config section
@@ -254,8 +252,8 @@ def PrinterStepper(config, units_in_radians=False):
     mcu_stepper = MCU_stepper(name, step_pin_params, dir_pin_params,
                               rotation_dist, steps_per_rotation,
                               step_pulse_duration, units_in_radians)
-    if not name.startswith('extruder'):
-    printer.add_object(po_name, mcu_stepper)
+    if 'stepper' in name:
+        printer.add_object(name, mcu_stepper)
     # Register with helper modules
     for mname in ['stepper_enable', 'force_move', 'motion_report']:
         m = printer.load_object(config, mname)
