@@ -1,5 +1,5 @@
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/LIaPKYyOujQ/0.jpg)]([https://www.youtube.com/watch?v=LIaPKYyOujQ]
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/LIaPKYyOujQ/0.jpg)](https://www.youtube.com/watch?v=LIaPKYyOujQ)
 
 
 # Introduction:
