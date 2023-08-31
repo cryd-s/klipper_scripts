@@ -1,3 +1,7 @@
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/LIaPKYyOujQ/0.jpg)]([https://www.youtube.com/watch?v=LIaPKYyOujQ]
+
+
 # Introduction:
 The macros MAX_VELOCITY_TEST, MAX_ACCEL_TEST, and BENCHMARK have been developed to test the maximum acceleration and velocity of the 3D printer along the X and Y axes. They perform a series of test movements at different acceleration and velocity values to examine the printer's performance under different settings.
 
