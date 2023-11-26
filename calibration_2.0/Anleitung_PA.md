@@ -1,5 +1,4 @@
-Ersteller und Autor: frix-x https://github.com/Frix-x
-Editiert und modifiziert: Fragmon https://github.com/Fragmon
+## Idee und Anleitung von Frix_x#0161 (https://github.com/Frix-x) Übersetzt von Fragmon#2722 
 
 ## Beschreibung
 
