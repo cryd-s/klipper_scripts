@@ -18,3 +18,5 @@ Beachte beim Abstimmen des Input Shapers Folgendes:
   1. Stelle die Genauigkeit deiner ADXL-Messungen sicher, indem du einen `MEASURE_AXES_NOISE`-Test durchführst und überprüfst, dass das Ergebnis für alle Achsen unter 100 liegt. Wenn dies nicht der Fall ist, überprüfe dein ADXL-Board und die Verkabelung, bevor du fortfährst.
   1. Die Grafiken können nur Symptome möglicher Probleme aufzeigen und das auf unterschiedliche Weisen. Diese Symptome können manchmal Ursachen vorschlagen, aber sie selten genau auf die Probleme hinweisen. Zum Beispiel könntest du diagnostizieren, dass einige Schrauben nicht richtig festgezogen sind, aber es ist unwahrscheinlich, dass du mit diesen Tests genau herausfindest, welche Schraube problematisch ist. Du wirst meistens tüfteln und experimentieren müssen.
   1. Zum Schluss, denke daran, warum du diese Tests durchführst: um saubere Drucke zu erhalten. Werde nicht zu besessen von perfekten Grafiken, da die letzten Optimierungsschritte wahrscheinlich den geringsten Einfluss auf die ged
+
+ruckten Teile in Bezug auf Schwingungen und Geisterbilder haben.
