@@ -90,7 +90,7 @@ Diese beiden Diagramme gelten als gut und sind das, was Sie anstreben sollten. S
 
 | Gutes X-Diagramm | Gutes Y-Diagramm |
 | --- | --- |
-| ![](../images/shaper_graphs/low_canbus_solved.png) | ![](../images/shaper_graphs/reso_good_y.png) |
+| ![](./images/shaper_graphs/low_canbus_solved.png) | ![](./images/shaper_graphs/reso_good_y.png) |
 
 ### Niedrige Frequenzenergie
 
