@@ -1,3 +1,6 @@
+# Idee und Anleitung von Frix_x#0161 (https://github.com/Frix-x)
+# uebersetzt von Fragmon#2722 
+
 # Achsenmessungen
 
 Das Makro `AXES_SHAPER_CALIBRATION` wird verwendet, um das Verhalten der Achsen zu messen und darzustellen, um Klippers Eingangsformungssystem einzustellen.
