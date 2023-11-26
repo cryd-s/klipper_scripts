@@ -26,6 +26,23 @@ Rufen Sie das Makro `VIBRATIONS_CALIBRATION` mit der Richtung und dem Geschwindi
 
 ![](./images/vibrations_graphs/vibration_graph_explanation.png)
 
+## Übersetzung
+
+Das Diagramm zeigt die kumulative Vibrationsenergie bei verschiedenen Druckgeschwindigkeiten
+
+Das System identifiziert automatisch Spitzen, die Geschwindigkeiten entsprechen, bei denen die Motoren übermäßigen Lärm oder Vibrationen erzeugen. Es wird empfohlen, diese Geschwindigkeiten in Ihren Slicer-Einstellungen zu vermeiden.
+
+Die grünen Bereiche zwischen den Spitzen zeigen ruhigere Zonen an, in denen Ihre Maschine mit reduziertem Lärm arbeitet. Diese Zonen sind in der Legende oben nach ihrer Ruhe, basierend auf den Geräuschpegeln, eingestuft. Der durchschnittliche Energieprozentsatz gibt die durchschnittliche Energie dieser Zone im Verhältnis zur höchsten Spitze auf dem Diagramm an. Es ist optimal, Zonen mit niedrigerer durchschnittlicher Energie zu nutzen; generell werden Zonen mit einer Energie unter 10% als akzeptabel erachtet. Im vorliegenden Beispiel scheinen alle grünen Zonen geeignet, in Ihrem Slicer-Druckprofil verwendet zu werden.
+
+Das Vibrations-Spektrogramm zerlegt im Wesentlichen den Klang oder die Vibration der Maschine, um die verschiedenen Frequenzen bei jeder Geschwindigkeit zu erkennen.
+
+Auf diesem Spektrogramm, typischerweise:
+
+- Diagonale Linien erscheinen, hauptsächlich die Schrittpulsfrequenzen des Motors und ihre Harmonischen darstellend, welche mit der Geschwindigkeit skalieren (z.B. bedeutet höhere Geschwindigkeit mehr Impulse für den Motor).
+- Die primäre horizontale verstreute Linie repräsentiert die resonante Frequenz der Motorwelle, die konstant ist (gerade über 200Hz in diesem Beispiel). Jedoch könnten zusätzliche horizontale Linien auftreten.
+
+In der unteren rechten Ecke zeigt das gelb-orange Muster an, dass Welligkeiten auftreten, während Ausführungsgeschwindigkeiten gemessen werden. Um Artefakte zu reduzieren, verwenden Sie eine niedrigere Beschleunigung oder ändern die Geschwindigkeit, da diese Oszillationen nicht das sind, was wir suchen.
+
 ## Verbesserung der Ergebnisse
 
 Diese Diagramme stellen im Wesentlichen das Verhalten der Motorsteuerung Ihrer Maschine dar. Obwohl es wenig Spielraum für einfache Anpassungen zur Verbesserung gibt, sollten die meisten von Ihnen sie nur verwenden, um Ihr Slicer-Profil zu konfigurieren, um problematische Geschwindigkeiten zu vermeiden.
