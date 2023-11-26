@@ -1,3 +1,5 @@
+## Idee und Anleitung von Frix_x#0161 (https://github.com/Frix-x) 
+### Übersetzt von Fragmon#2722 
 # Eingabeformung und Abstimmungsgrundlagen
 
 Da immer mehr Menschen diese Makros verwenden, entstehen Fragen zur Interpretation der Ergebnisse oder zur richtigen Abstimmung bzw. Behebung mechanischer Verhaltensweisen einer Maschine. Dieses Dokument bietet dir Anleitungen zur Interpretation. Beachte, dass es keine universelle Methode gibt: Verschiedene Personen können die Ergebnisse unterschiedlich interpretieren oder andere Meinungen haben. Es ist wichtig, dass du experimentierst und herausfindest, was für deinen eigenen 3D-Drucker am besten funktioniert.
