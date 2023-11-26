@@ -31,7 +31,7 @@ Um Eingangsformungsdiagramme effektiv zu analysieren, gibt es keine universelle 
 
 - Bei den Riemenkurven sollten Sie sich **auf die Form der Kurven, nicht auf die Werte** konzentrieren. Der Energiewert liefert nicht viele nützliche Informationen. Verwenden Sie ihn nur, um zwei Ihrer eigenen Diagramme zu vergleichen und den Einfluss Ihrer mechanischen Änderungen zwischen zwei aufeinanderfolgenden Tests zu messen, aber verwenden Sie ihn niemals, um Diagramme von anderen Personen oder anderen Maschinen zu vergleichen.
 
-![](../images/shaper_graphs/shaper_recommandations.png)
+![](./images/shaper_graphs/shaper_recommandations.png)
 
 Verlassen Sie sich bei der Einstellung Ihrer Eingangsformungsfilter auf die automatisch berechneten Werte, die oben rechts im Diagramm angezeigt werden. Hier ist eine Aufschlüsselung der Legende für ein besseres Verständnis:
 
