@@ -4,8 +4,6 @@ Das Makro `AXES_SHAPER_CALIBRATION` wird verwendet, um das Verhalten der Achsen 
 
 ## Verwendung
 
-**Stellen Sie sicher, dass die Riemen ordnungsgemäß gespannt sind**, und dass Sie bereits gute und klare Riemenkurven haben (siehe [vorherigen Abschnitt](./belts_tuning.md)).
-
 Rufen Sie dann das Makro `AXES_SHAPER_CALIBRATION` auf und suchen Sie nach den Diagrammen im Ergebnisordner. Hier sind die verfügbaren Parameter:
 
 | Parameter | Standardwert | Beschreibung |
@@ -18,7 +16,7 @@ Rufen Sie dann das Makro `AXES_SHAPER_CALIBRATION` auf und suchen Sie nach den D
 
 ## Beschreibung der Diagramme
 
-![](../images/shaper_graphs/shaper_graph_explanation.png)
+![](./images/shaper_graphs/shaper_graph_explanation.png)
 
 ## Analyse der Ergebnisse
 
