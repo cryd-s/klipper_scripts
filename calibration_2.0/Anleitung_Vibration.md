@@ -27,7 +27,7 @@ Rufen Sie das Makro `VIBRATIONS_CALIBRATION` mit der Richtung und dem Geschwindi
 
 ![](./images/vibrations_graphs/vibration_graph_explanation.png)
 
-## Übersetzung
+### Übersetzung der Grafik
 
 Das Diagramm zeigt die kumulative Vibrationsenergie bei verschiedenen Druckgeschwindigkeiten
 
