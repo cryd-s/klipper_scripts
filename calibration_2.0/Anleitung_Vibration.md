@@ -24,7 +24,7 @@ Rufen Sie das Makro `VIBRATIONS_CALIBRATION` mit der Richtung und dem Geschwindi
 
 ## Beschreibung der Diagramme
 
-![](./images/vibrations_graphs/vibration_graph_explanation.png)
+![](../images/vibrations_graphs/vibration_graph_explanation.png)
 
 ## Verbesserung der Ergebnisse
 
