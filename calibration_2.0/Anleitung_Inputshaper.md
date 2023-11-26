@@ -22,9 +22,9 @@ Rufen Sie dann das Makro `AXES_SHAPER_CALIBRATION` auf und suchen Sie nach den D
 
 ![](./images/shaper_graphs/shaper_graph_explanation.png)
 
-##Übersetzung
+### Übersetzung der Grafik
 
-Im Titel repräsentiert ω0 die primäre Resonanzfrequenz und ζ ist das geschätzte Dämpfungsverhältnis für die getestete Achse. Diese Werte sind nur genau, wenn das Diagramm eine klare Form mit einem gut erkennbaren Hauptgipfel zeigt.
+Im Titel repräsentiert ωo die primäre Resonanzfrequenz und ζ ist das geschätzte Dämpfungsverhältnis für die getestete Achse. Diese Werte sind nur genau, wenn das Diagramm eine klare Form mit einem gut erkennbaren Hauptgipfel zeigt.
 
 Das erste Diagramm ist eine modifizierte Version des ursprünglichen Klipper Eingangsformers-Diagramms, jetzt mit zusätzlicher automatischer Spitzenentdeckung. Alles andere bleibt gleich.
 
