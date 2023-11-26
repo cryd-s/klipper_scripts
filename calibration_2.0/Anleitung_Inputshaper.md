@@ -3,6 +3,8 @@
 
 # Achsenmessungen
 
+Bevor du beginnst, stellen sicher, dass die Riemen ordnungsgemäß gespannt sind und dass du bereits gute und klare Riemenverläufe hast (siehe den vorherigen Abschnitt). (CORE XY only)
+
 Das Makro `AXES_SHAPER_CALIBRATION` wird verwendet, um das Verhalten der Achsen zu messen und darzustellen, um Klippers Eingangsformungssystem einzustellen.
 
 ## Verwendung
@@ -116,7 +118,7 @@ Wenn du Probleme mit der Riemenverlegung oder der Ausrichtung der Riemen festste
 
 1. Ein wackeliger Tisch kann die Ursache sein. Versuche zuerst, den Drucker direkt auf den Boden zu stellen.
 
-2. Stelle sicher, dass die Riemen optimal gespannt sind, indem du das Makro [`BELTS_SHAPER_CALIBRATION`](./belts_tuning.md) verwendest.
+2. Stelle sicher, dass die Riemen optimal gespannt sind, indem du das Makro BELTS_SHAPER_CALIBRATION verwendest.
 
 3. Wenn die Probleme weiterhin bestehen, könnte es an einer unsachgemäß ausgerichteten Gantry liegen. Zur Korrektur kannst du dich an [Nero3D's De-Racking-Video](https://youtu.be/cOn6u9kXvy0?si=ZCSdWU6br3Y9rGsy) wenden.
 
