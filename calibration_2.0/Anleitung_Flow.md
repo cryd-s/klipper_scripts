@@ -1,3 +1,5 @@
+## Idee und Anleitung von Frix_x#0161 (https://github.com/Frix-x) 
+### Übersetzt von Fragmon#2722 
 # Flow Calibration
 
 ## Beschreibung
