@@ -1,3 +1,4 @@
+## Idee und Anleitung von Frix_x#0161 (https://github.com/Frix-x) Übersetzt von Fragmon#2722 
 # Vibrationsmessungen
 
 Das Makro `VIBRATIONS_CALIBRATION` hilft Ihnen dabei, die Geschwindigkeitseinstellungen zu identifizieren, die die Vibrationen der Maschine verschlimmern (d. h. wo das Gestell und die Motoren stark in Resonanz geraten). Dies wird Ihnen helfen, die sauberen Geschwindigkeitsbereiche zu finden, in denen die Maschine leiser ist und weniger anfällig für vertikale feine Artefakte in den Drucken.
