@@ -21,7 +21,7 @@ Rufe dann das Makro `BELTS_SHAPER_CALIBRATION` auf und suche nach den Grafiken i
 
 ![](./images/belt_graphs/belt_graph_explanation.png)
 
-## Übersetzung
+### Übersetzung der Grafik
 
 Die geschätzte Ähnlichkeit misst, wie nahe die Frequenzprofile der beiden Riemen beieinanderliegen. Idealerweise sollte dieser Wert so nah wie möglich an 100% sein.
 
