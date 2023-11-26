@@ -21,6 +21,27 @@ Rufe dann das Makro `BELTS_SHAPER_CALIBRATION` auf und suche nach den Grafiken i
 
 ![](./images/belt_graphs/belt_graph_explanation.png)
 
+## Übersetzung
+
+Die geschätzte Ähnlichkeit misst, wie nahe die Frequenzprofile der beiden Riemen beieinanderliegen. Idealerweise sollte dieser Wert so nah wie möglich an 100% sein.
+
+Es gibt einen automatischen Spitzen-Erkennungsalgorithmus, um Spitzen im Diagramm zu identifizieren und abzugleichen. Idealerweise solltest du ein oder zwei Sets von gepaarten Spitzen beobachten und unpaarte Spitzen vermeiden.
+- Gepaarte Spitzen sind als A1 & A2, B1 & B2 usw. gekennzeichnet.
+- Ungepaarte Spitzen sind fett in Rot hervorgehoben und als 1, 2, 3 usw. beschriftet.
+Konsultiere die angrenzende Tabelle, um sicherzustellen, dass gepaarte Spitzen gut ausgerichtet sind und um Abweichungen in Frequenz und Amplitude zu bewerten.
+
+Die lila Kurve ist das A-Riemen und die orangene Kurve ist das B-Riemen Frequenzprofil. Idealerweise sollten diese Kurven sich überlappen und zu einem einzigen Profil verschmelzen, was anzeigt, dass die beiden Riemen ähnliches Verhalten und Spannung zeigen. Das Erreichen dieses Ziels sollte auch die geschätzte Ähnlichkeit erhöhen, welche die Ähnlichkeit zwischen den beiden misst.
+
+Die Entspannungszone ist der grüne Bereich, wo Spitzen nicht viel ausmachen. Normalerweise kannst du kleine Erhebungen hier ignorieren.
+
+Das differentielle Spektrogramm zeigt Unterschiede auf, wie jeder Riemen während des Tests über die Zeit reagiert hat. Rote Bereiche im Spektrogramm heben diese Unterschiede hervor, oft nahe an den Spitzen. In diesem Beispiel:
+- Die A-Spitzen sind nah beieinander, mit einem blassen roten Bereich
+- Die B-Spitzen unterscheiden sich um etwa 25% in der Amplitude, was einen dunkleren roten Bereich zeigt
+- Die einzelne Spitze 1 hat eine leichte rote Fläche zu seiner relativ niedrigen Amplitude
+- Die mechanische Montage und mechanische Gesundheit der Maschine ist ziemlich gut und sonst scheint nichts anderes auf diesem Spektrogramm auf
+
+Typischerweise folgen rote Bereiche einer diagonalen Linie und zeigen Riemenharmonie. Wenn sie anderswo erscheinen, könnte das auf eine Störung hindeuten.
+
 ## Analyse der Ergebnisse
 
 Bei diesen Grafiken **möchtest du, dass beide Kurven ähnlich aussehen und sich überlappen, um eine einzelne Kurve zu bilden**: Versuche, sie so eng wie möglich in Frequenz **und** Amplitude aneinander anzupassen. Normalerweise besteht ein Riemen-Diagramm aus einem oder zwei Hauptpeaks (mehr als zwei Peaks können auf mechanische Probleme hindeuten). "Rauschen" um die Hauptpeaks ist akzeptabel, sollte aber bei beiden Kurven mit vergleichbarer Amplitude vorhanden sein. Behalte im Kopf, dass wenn du einen Riemen spannst, seine Peaks sich diagonal zur oberen rechten Ecke bewegen sollten, sich signifikant in der Amplitude und leicht in der Frequenz verändern. Zusätzlich sollte die Größenordnung der Hauptpeaks *typischerweise* bei den meisten Maschinen von ~500k bis ~2M reichen.
