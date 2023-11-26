@@ -23,6 +23,24 @@ Rufen Sie dann das Makro `AXES_SHAPER_CALIBRATION` auf und suchen Sie nach den D
 
 ![](./images/shaper_graphs/shaper_graph_explanation.png)
 
+##Übersetzung
+
+Im Titel repräsentiert ω0 die primäre Resonanzfrequenz und ζ ist das geschätzte Dämpfungsverhältnis für die getestete Achse. Diese Werte sind nur genau, wenn das Diagramm eine klare Form mit einem gut erkennbaren Hauptgipfel zeigt.
+
+Das erste Diagramm ist eine modifizierte Version des ursprünglichen Klipper Eingangsformers-Diagramms, jetzt mit zusätzlicher automatischer Spitzenentdeckung. Alles andere bleibt gleich.
+
+Die Legende zeigt die verschiedenen geschätzten Leistungen des Formers für diese Achse, die Ihnen helfen, den besten für Sie auszuwählen. Es gibt auch einige Former-Empfehlungen basierend auf Leistung oder Vibrationsreduktionsziel, zusammen mit dem geschätzten Dämpfungsverhältnis. Für die Interpretation der Legende ziehen Sie bitte die folgende Dokumentation zurate.
+
+Die Entspannungszone ist der grüne Bereich, in dem Gipfel nicht viel ausmachen. Sie können hier kleine Unebenheiten normalerweise ignorieren. Die gelbe Warnzone ist der Bereich, in dem Gipfel je nach ihrer Form besorgniserregend sein könnten. Alles über diesen Zonen sollte genau untersucht und angesprochen werden.
+
+Das Zeit-Frequenz-Spektrogramm veranschaulicht die Reaktion der Achse über die Zeit während des Tests. Wichtige Elemente, die zu beachten sind:
+- Diagonale Linien repräsentieren normalerweise die Hauptresonanzen, mit hellen Flecken, die hohe Amplitudenspitzen anzeigen, die mit Spitzen auf dem Hauptdiagramm übereinstimmen.
+- Vertikale Linien resultieren aus konstanter Frequenzgeräusche, die häufig von Motorsteuerung oder möglicherweise externen Faktoren wie einem unausgeglichenen Lüfter stammen. Diese können auch später mit dem Schwingungsmessungs-Makro analysiert werden.
+- Horizontale Linien, die nicht vorhanden sein sollten, könnten auf eine externe Störung mit der Maschine wie einen Stoß während des Tests hindeuten.
+- Helle Flecken könnten auf eine periodische störende Schwingungsfrequenz wie eine Schraube oder etwas Ähnliches hindeuten, aber es ist ziemlich ungewöhnlich, so etwas zu sehen.
+
+Das Bild bietet einen detaillierten Einblick in die Analyse von Maschinenschwingungen und ist ein nützliches Werkzeug für diejenigen, die mit der Feinabstimmung von Bewegungssystemen arbeiten.
+
 ## Analyse der Ergebnisse
 
 ### Allgemeines
