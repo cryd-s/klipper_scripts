@@ -8,7 +8,7 @@ Das Makro `AXES_SHAPER_CALIBRATION` wird verwendet, um das Verhalten der Achsen 
 
 ## Verwendung
 
-Rufen Sie dann das Makro `AXES_SHAPER_CALIBRATION` auf und suchen Sie nach den Diagrammen im Ergebnisordner. Hier sind die verfügbaren Parameter:
+Rufen Sie dann das Makro `AXES_SHAPER_CALIBRATION` auf und suchen Sie nach den Diagrammen im Ergebnisordner unter Maschine (K-ShakeTune). Hier sind die verfügbaren Parameter:
 
 | Parameter | Standardwert | Beschreibung |
 |-----------:|---------------|-------------|
