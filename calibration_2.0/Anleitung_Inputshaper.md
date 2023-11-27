@@ -70,9 +70,7 @@ Verlassen Sie sich bei der Einstellung Ihrer Eingangsformungsfilter auf die auto
 
 - **Shaper-Empfehlungen**: Dieses Skript gibt Ihnen maßgeschneiderte Empfehlungen basierend auf Ihren Diagrammen. Wählen Sie denjenigen aus, der Ihren Anforderungen entspricht:
 
-    - Der "Performance"-Shaper ist Klippers ursprüngliche Empfehlung, die sich gut für hohe Beschleunigungen eignet und manchmal auch g
-
-eringfügige verbleibende Vibrationen zulässt. Verwenden Sie ihn, wenn Ihr Ziel schnelles Drucken ist und Ihnen geringfügiges Nachklingen nicht viel ausmacht.
+    - Der "Performance"-Shaper ist Klippers ursprüngliche Empfehlung, die sich gut für hohe Beschleunigungen eignet und manchmal auch geringfügige verbleibende Vibrationen zulässt. Verwenden Sie ihn, wenn Ihr Ziel schnelles Drucken ist und Ihnen geringfügiges Nachklingen nicht viel ausmacht.
     
     - Der "Low Vibration"-Shaper zielt auf das geringste Maß an verbleibenden Vibrationen ab, um die beste Druckqualität mit minimalem Nachklingen zu gewährleisten. Dies sollte die beste Wahl für die meisten Benutzer sein.
     
