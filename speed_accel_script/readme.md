@@ -5,23 +5,13 @@
 # Introduction:
 The macros MAX_VELOCITY_TEST, MAX_ACCEL_TEST, and BENCHMARK have been developed to test the maximum acceleration and velocity of the 3D printer along the X and Y axes. They perform a series of test movements at different acceleration and velocity values to examine the printer's performance under different settings.
 
-If errors occur after installation, your original Stepper.py can be restored with this command:
-``cd ~/klipper``
-``git restore klippy/stepper.py``
-
 ## CAUTION:
-Only the physical properties are being tested. These can be used, for example, for travel movements. Whether these values can be realized by the hotend must be determined separately. For this macro, the stepper.py (thx to @Piezoid) file currently needs to be replaced. This can prevent KIAUH from updating. Before an update, the original stepper.py file should be restored, and after the update, it should be replaced again. We are currently working on integrating this functionality into the standard Klipper so that this step can be eliminated.
+Only the physical properties are being tested. These can be used, for example, for travel movements. Whether these values can be realized by the hotend must be determined separately. 
 
 # Preparation:
 - Ensure that the 3D printer is correctly set up and all axes are free to move.
 - Copy the speed_test.cfg file into your configuration and select your printer type within the file (cartesian or corexy).
-- Add [include speed_test.cfg] and [respond] to your printer.cfg file.
-- Backup the Stepper.py file in the home/pi/klipper/klippy/ directory.
-- Overwrite the Klipper file stepper.py with this command (using Putty):
-- ``curl 'https://raw.githubusercontent.com/cryd-s/klipper_scripts/main/speed_accel_script/stepper.py' > ~/klipper/klippy/stepper.py``,
-  and then restart Klipper using this command: sudo systemctl restart klipper.
-
-Klipper now shows under [machine] as Dirty. This is because the file no longer matches the original. The problem will be resolved once these functions have been integrated into the original Klipper.
+- Add [include speed_test.cfg] and [respond], [endstop_phase stepper_x], [endstop_phase stepper_y] to your printer.cfg file.
 
 # Explanation of the Macros:
 ## CAUTION -- The macros can only be stopped by emergency stop
