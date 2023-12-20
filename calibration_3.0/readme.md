@@ -2,7 +2,7 @@
 ### Übersetzt von Fragmon#2722
 
 
-# Kalibrationmakro 3.0
+# Kalibrierungsmakro 3.0
 
 Update 26.11.2023 - rework - for installing delete all old files (calibrate.cfg, script folder)
 
