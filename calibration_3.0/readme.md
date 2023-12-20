@@ -7,7 +7,7 @@ Ersteller und Autor: frix-x <https://github.com/Frix-x>
 Editiert und modifiziert: Fragmon <https://github.com/Fragmon
 
 
-# Kalibrationmakro 2.1
+# Kalibrationmakro 3.0
 
 Update 26.11.2023 - rework - for installing delete all old files (calibrate.cfg, script folder)
 
