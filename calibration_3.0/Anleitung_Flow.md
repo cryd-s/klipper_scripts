@@ -26,8 +26,6 @@ Die Parameter, die beim Aufruf des Makros `FLOW_MULTIPLIER_CALIBRATION` zur Verf
 
 | Parameter | Standardwert | Beschreibung |
 |-----------:|---------------|-------------|
-|EXTRUDER_TEMP|245|         Drucktemperatur
-|BED_TEMP|110|                Druckbetttemperatur
 |DO_RAFT|1|                 druckt eine "Basis", um die Schale zu stützen (bessere Bett-Haftung und leichteres Entfernen am Ende)|
 |DO_RETRACT|0|              Rückzug aktivieren/deaktivieren. Standardmäßig deaktiviert, um einen konstanten Fluss zu gewährleisten, kann aber bei Problemen mit dem Druck aktiviert werden.
 |PRINT_SIZE|40|             Größe in mm, die für den Test auf dem Bett verwendet wird. Das Modell wird in der Mitte des Bettes gedruckt.
