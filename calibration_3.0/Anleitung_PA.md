@@ -17,8 +17,6 @@ Die Parameter, die beim Aufruf des Makros `PRESSURE_ADVANCE_CALIBRATION` zur Ver
 
 | Parameter | Standardwert | Beschreibung |
 |-----------:|---------------|-------------|
-|EXTRUDER_TEMP|245|         Drucktemperatur
-|BED_TEMP|1|                Druckbetttemperatur
 |DO_RAFT|1|druckt eine "Basis", um das Testgitter zu stützen (bessere Haftung des Bettes und leichtere Entfernung am Ende)|
 |START|0.02|PA-Wert zum Starten|
 |INCREMENT|0.005|PA-Wert, der für jedes folgende Band erhöht wird|
