@@ -35,7 +35,6 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
      # timeout: 300
      #    The maximum time in seconds to let Shake&Tune process the CSV files and generate the graphs.
      ```
-     
   6. Füge folgende Konfiguration in deine `moonraker.conf` ein:
      ```
     [update_manager Klippain-ShakeTune]
@@ -47,7 +46,6 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
     system_dependencies: system-dependencies.json
     primary_branch: main
     managed_services: klipper
-    ```
 
 ## Funktionalität
 
