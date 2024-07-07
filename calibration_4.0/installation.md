@@ -35,8 +35,7 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
      #    The maximum time in seconds to let Shake&Tune process the CSV files and generate the graphs.
      ```
   5. Füge folgende Konfiguration in deine `moonraker.conf` ein
-     ```
-     ## Klippain Shake&Tune automatic update management
+    ```
     [update_manager Klippain-ShakeTune]
     type: git_repo
     origin: https://github.com/Frix-x/klippain-shaketune.git
