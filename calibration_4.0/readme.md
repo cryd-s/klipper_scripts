@@ -31,7 +31,7 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
 > PyWavelets==1.6.0
 
 
-  1. Kopiere die Makrodatei "calibrate_4.0.cfg" direkt in deine eigene Konfiguration.
+  1. Kopiere die Makrodatei "calibrate.cfg" auf deinen Drucker.
   2. Stelle sicher, dass die Klipper-Erweiterung 'gcode_shell_command.py' installiert ist.
   Die einfachste Installationsmethode ist die Nutzung des erweiterten Bereichs von KIAUH.\
   [KIAUH installieren](https://www.obico.io/blog/install-klipper-with-kiauh/#install-kiauh-on-your-raspberry-pi)\
