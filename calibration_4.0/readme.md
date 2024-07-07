@@ -69,17 +69,12 @@ Dieses Reopistory erklärt die Makros und Kalibrierungstools, welche dir bei der
     primary_branch: main
     managed_services: klipper
 
-## Makros:
-`FLOW_MULTIPLIER_CALIBRATION`: Bestimmt den optimalen Extrusionsfaktor. Dieser kann im Slicer gespeichert werden.
+## Funktionen
 
-`COMPUTE_FLOW_MULTIPLIER`: Wird verwendet, um den optimalen Extrusionsfaktor zu berechnen.
-
-`PRESSURE_ADVANCE_CALIBRATION`: Bestimmt das optimale PA. Kann im Slicer gespeichert werden.
-
-## Shake&Tune-Funktionen
-
-| Shake&Tune-Befehl | Beispielgrafiken |
+| Befehl | Beispielgrafiken |
 |:------|:-------:|
+|[`FLOW_MULTIPLIER_CALIBRATION`](./makros/Flow.md)<br /><br /> Bestimmt den optimalen Extrusionsfaktor. Dieser kann im Slicer gespeichert werden. | [<img src="./images/flow_calibration.png">](./functions/axes_map_calibration.md) |
+|[`PRESSURE_ADVANCE_CALIBRATION`](./fmakros/PA.md)<br /><br />Bestimmt das optimale PA. Kann im Slicer gespeichert werden. | [<img src="./images/pa_calibration.png">](./functions/axes_map_calibration.md) |
 |[`AXES_MAP_CALIBRATION`](./functions/axes_map_calibration.md)<br /><br />Überprüft, ob Ihr Beschleunigungssensor korrekt funktioniert und findet automatisch den `axes_map`-Parameter von Klipper | [<img src="./images/axesmap_example.png">](./functions/axes_map_calibration.md) |
 |[`COMPARE_BELTS_RESPONSES`](./functions/compare_belts_responses.md)<br /><br />Erstellt ein Differenzdiagramm für Riemenresonanzen, um die relativen Riemenspannungen und das Verhalten der Riemenpfade bei einem CoreXY- oder CoreXZ-Drucker zu überprüfen | [<img src="./images/belts_example.png">](./macros/compare_belts_responses.md) |
 |[`AXES_SHAPER_CALIBRATION`](./mfunctions/axes_shaper_calibrations.md)<br /><br />Erstellt die üblichen Eingabeshaper-Diagramme, um die Eingabeshaper-Filter von Klipper zu optimieren und Ringing/Ghosting zu reduzieren | [<img src="./images/axis_example.png">](./macros/axes_shaper_calibrations.md) |
