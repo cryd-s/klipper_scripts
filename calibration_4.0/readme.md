@@ -22,7 +22,8 @@ Update 07.07.2024 - Aktualisierungen der Anleitungen
   > **Deinstallation alter Versionen**:
   >
   > Lösche die `Calibrate.cfg` und wenn vorhanden, den `K-Shake-Tune Ordner` aus deinem Verzeichnis.
->    **Raspberry System**:
+>
+> **Raspberry System**:
   > Folgende Bibliotheken und Anwendungen werden benötigt und normalerweise mithilfe des Installationsskriptes aktualisiert. Es kann jedoch passieren, dass während der Installation Fehler auftreten. Des Weiteren sollte das System mindestens Bullseye oder Bookworm sein. Buster ist veraltet und kann inkompatibilitäten auslösen.
   >
 > GitPython==3.1.41
