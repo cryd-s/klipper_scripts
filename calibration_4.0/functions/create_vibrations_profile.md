@@ -1,91 +1,95 @@
-# Machine vibrations profiles
+Übersetzung von: https://github.com/Frix-x/klippain-shaketune/blob/main/docs/macros/create_vibrations_profile.md
 
-The `CREATE_VIBRATIONS_PROFILE` macro analyzes accelerometer data to plot the vibration profile of your 3D printer. The resulting graphs highlight optimal print speeds and angles that produce the least amount of vibration. It provides a technical basis for adjustments in your slicer profiles, but also in hardware setup and TMC driver parameters to improve print quality and reduce VFAs (vertical fines artifacts).
+# Maschinenvibrationsprofile
 
-  > **Warning**
+Das Makro `CREATE_VIBRATIONS_PROFILE` analysiert Beschleunigungssensordaten, um das Vibrationsprofil deines 3D-Druckers zu plotten. Die resultierenden Diagramme heben optimale Druckgeschwindigkeiten und -winkel hervor, die die geringsten Vibrationen erzeugen. Es bietet eine technische Basis für Anpassungen in deinen Slicer-Profilen, aber auch in der Hardwarekonfiguration und TMC-Treiberparametern, um die Druckqualität zu verbessern und VFAs (vertikale Feinartefakte) zu reduzieren.
+
+  > **Warnung**
   >
-  > You will need to calibrate the standard input shaper algorithms of Klipper using the other macros first! This test should be used as a last step to calibrate your printer with Shake&Tune.
+  > Du musst zuerst die Standard-Eingabeshaper-Algorithmen von Klipper mit den anderen Makros kalibrieren! Dieser Test sollte als letzter Schritt verwendet werden, um deinen Drucker mit Shake&Tune zu kalibrieren.
 
 
-## Usage
+## Verwendung
 
-Call the `CREATE_VIBRATIONS_PROFILE` macro with the speed range you want to measure. Here are the parameters available:
+Rufe das Makro `CREATE_VIBRATIONS_PROFILE` mit dem Geschwindigkeitsbereich auf, den du messen möchtest. Hier sind die verfügbaren Parameter:
 
-| parameters | default value | description |
+| Parameter | Standardwert | Beschreibung |
 |-----------:|---------------|-------------|
-|SIZE|100|diameter in mm of the circle in which the recorded movements take place|
-|Z_HEIGHT|20|Z height to put the toolhead before starting the movements. Be careful, if your accelerometer is mounted under the nozzle, increase it to avoid crashing it on the bed of the machine|
-|MAX_SPEED|200|maximum speed of the toolhead in mm/s to record for analysis|
-|SPEED_INCREMENT|2|toolhead speed increments in mm/s between each movement|
-|ACCEL|3000|accel in mm/s^2 used for all moves. Try to keep it relatively low to avoid dynamic effects that alter the measurements, but high enough to achieve a constant speed for >~70% of the segments. 3000 is a reasonable default for most printers, unless you want to record at very high speed, in which case you will want to increase SIZE and decrease ACCEL a bit.|
-|TRAVEL_SPEED|120|speed in mm/s used for all the travels moves|
-|ACCEL_CHIP|None|accelerometer chip name from your Klipper config that you want to force for the test|
+|SIZE|100|Durchmesser in mm des Kreises, in dem die aufgezeichneten Bewegungen stattfinden|
+|Z_HEIGHT|20|Z-Höhe, um den Werkzeugkopf vor Beginn der Bewegungen zu positionieren. Sei vorsichtig, wenn dein Beschleunigungssensor unter der Düse montiert ist, erhöhe sie, um ein Aufprallen auf das Bett der Maschine zu vermeiden|
+|MAX_SPEED|200|Maximale Geschwindigkeit des Werkzeugkopfs in mm/s zur Aufzeichnung für die Analyse|
+|SPEED_INCREMENT|2|Geschwindigkeitserhöhungen des Werkzeugkopfs in mm/s zwischen jeder Bewegung|
+|ACCEL|3000|Beschleunigung in mm/s², die für alle Bewegungen verwendet wird. Versuche, sie relativ niedrig zu halten, um dynamische Effekte zu vermeiden, die die Messungen verändern, aber hoch genug, um eine konstante Geschwindigkeit für >~70% der Segmente zu erreichen. 3000 ist ein vernünftiger Standard für die meisten Drucker, es sei denn, du möchtest mit sehr hoher Geschwindigkeit aufzeichnen, in diesem Fall solltest du SIZE erhöhen und ACCEL etwas verringern.|
+|TRAVEL_SPEED|120|Geschwindigkeit in mm/s, die für alle Reisebewegungen verwendet wird|
+|ACCEL_CHIP|Keiner|Name des Beschleunigungschips aus deiner Klipper-Konfiguration, den du für den Test erzwingen möchtest|
 
-The `CREATE_VIBRATIONS_PROFILE` macro results are constituted of a set of 6 plots. At the top of the figure you can also see all the detected motor, current and TMC driver parameters. These notes are just for reference in case you want to tinker with them and don't forget what you changed between each run of the macro.
+Die Ergebnisse des `CREATE_VIBRATIONS_PROFILE`-Makros bestehen aus einem Satz von 6 Diagrammen. Oben in der Abbildung siehst du auch alle erkannten Motor-, Strom- und TMC-Treiberparameter. Diese Notizen dienen nur als Referenz, falls du mit ihnen herumtüfteln möchtest und nicht vergessen willst, was du zwischen jedem Durchlauf des Makros geändert hast.
 
 ![](../images/vibrations_example.png)
 
-### Global Speed Energy Profile
+### Globales Geschwindigkeits-Energie-Profil
 
-| Example | description |
+| Beispiel | Beschreibung |
 |:-----|-------------|
-|![](../images/vibrations_graphs/global_speed_energy_profile.png)|This plot shows the relationship between toolhead speed (mm/s) and vibrational energy, providing a global view of how speed impacts vibration across all movements. By using speeds from the green zones, your printer will run more smoothly and you will minimize vibrations and related fine artifacts in prints|
+|![](../images/vibrations_graphs/global_speed_energy_profile.png)|Dieses Diagramm zeigt die Beziehung zwischen der Geschwindigkeit des Werkzeugkopfs (mm/s) und der Vibrationsenergie und bietet eine globale Ansicht darüber, wie die Geschwindigkeit die Vibrationen über alle Bewegungen hinweg beeinflusst. Durch die Verwendung von Geschwindigkeiten aus den grünen Zonen läuft dein Drucker reibungsloser, und du minimierst Vibrationen und damit verbundene feine Artefakte in Drucken|
 
-This graph is the most important one of this tool. You want to use it to adapt your slicer profile, especially by looking at the "vibration metric" curve, that will helps you find which speeds can be problematic for your printer. Here's the magic behind it, broken down into two key parts:
-  1. **Spectrum Variance**: This is like the mood ring of your printer, showing how the vibes (a.k.a vibrations) change when printing from different angles. If the "vibration metric" is low, it means your printer is keeping its cool, staying consistent no matter the angle. But if it spikes, it's a sign that some angles are making your printer jitter more than a caffeinated squirrel. *Imagine it like this: You're looking for a chill party vibe where the music's good at every angle, not one where you turn a corner and suddenly it's too loud or too soft.*
-  2. **Spectrum Max**: This one's about the max volume of the party, or how loud the strongest vibration is across all angles at any speed. We're aiming to avoid the speeds that crank up the volume too high, causing a resonance rave in the motors. *Think of it this way: You don't want the base so high that it feels like your heart's going to beat out of your chest. We're looking for a nice background level where everyone can chat and have a good time.*
+Dieses Diagramm ist das wichtigste Werkzeug dieses Tools. Du möchtest es nutzen, um dein Slicer-Profil anzupassen, insbesondere indem du die "Vibrationsmetrik"-Kurve betrachtest, die dir hilft herauszufinden, welche Geschwindigkeiten problematisch für deinen Drucker sein könnten. Hier ist die Magie dahinter, aufgeteilt in zwei Hauptteile:
+  1. **Spektrumvarianz**: Das ist wie der Stimmungsring deines Druckers, der zeigt, wie sich die Vibes (auch bekannt als Vibrationen) ändern, wenn aus verschiedenen Winkeln gedruckt wird. Wenn die "Vibrationsmetrik" niedrig ist, bedeutet das, dass dein Drucker seine Coolness bewahrt und konsistent bleibt, egal aus welchem Winkel. Aber wenn sie ansteigt, ist das ein Zeichen dafür, dass einige Winkel deinen Drucker mehr zittern lassen als ein koffeinhörnchen Eichhörnchen. *Stell dir vor, du suchst eine entspannte Party-Atmosphäre, wo die Musik aus jedem Winkel gut ist, nicht eine, wo du um die Ecke biegst und plötzlich ist es zu laut oder zu leise.*
+  2. **Spektrum Maximum**: Dieser Teil handelt vom maximalen Volumen der Party oder davon, wie laut die stärkste Vibration über alle Winkel bei jeder Geschwindigkeit ist. Wir zielen darauf ab, Geschwindigkeiten zu vermeiden, die das Volumen zu hoch drehen und eine Resonanzrave in den Motoren verursachen. *Denke darüber nach: Du möchtest nicht, dass der Bass so hoch ist, dass es sich anfühlt, als würde dein Herz aus deiner Brust schlagen. Wir suchen nach einem schönen Hintergrundniveau, wo jeder plaudern und eine gute Zeit haben kann.*
 
-And why do we care so much about finding these speeds? Because during a print, the toolhead will move in all directions depending on the geometry, and we want a speed that's like a good friend, reliable no matter what the situation. Fortunately, since the motors in our printers share their vibes without non-linear mixing and just add up (think of it as each doing its own dance without bumping into each other), we can find those happy green zones on the graph: these are the speeds that keep the vibe cool and the energy just right, making them perfect for all your print jobs.
+Und warum kümmern wir uns so sehr darum, diese Geschwindigkeiten zu finden? Weil der Werkzeugkopf während eines Drucks in alle Richtungen bewegt wird, abhängig von der Geometrie, und wir eine Geschwindigkeit wollen, die wie ein guter Freund ist, zuverlässig in jeder Situation. Glücklicherweise, da die Motoren in unseren Druckern ihre Vibes ohne nichtlineares Mischen teilen und sich einfach addieren (denke daran, als würde jeder seinen eigenen Tanz machen, ohne sich gegenseitig zu stoßen), können wir diese glücklichen grünen Zonen auf dem Diagramm finden: das sind die Geschwindigkeiten, die die Stimmung kühl halten und die Energie genau richtig machen, was sie perfekt für alle deine Druckaufträge macht.
 
-### Polar Angle Energy Profile
+### Polares Winkelenergieprofil
 
-| Example | description |
+| Beispiel | Beschreibung |
 |:-----|-------------|
-|![](../images/vibrations_graphs/polar_angle_energy_profile.png)|Shows how vibrational energy varies with the direction where the toolhead is running. It helps in identifying angles that produce less vibration, and potentially detect assymetries in the belt paths for a CoreXY printer|
+|![](../images/vibrations_graphs/polar_angle_energy_profile.png)|Zeigt, wie die Vibrationsenergie je nach Richtung variiert, in der der Werkzeugkopf läuft. Es hilft dabei, Winkel zu identifizieren, die weniger Vibrationen erzeugen, und möglicherweise Asymmetrien in den Riemenwegen bei einem CoreXY-Drucker zu erkennen.|
 
-This plot is like your go-to playlist for finding those angles where the vibe is just right. But here's the thing: when printing, your toolhead will groove in all directions and angles, depending on the geometry of your parts, so sticking to just one angle isn't possible. My tip to make the most of this chart for your prints: if you're working on something rectangular, try to align it so that most of the edges match the angles that's least likely to make your printer jitter. For those sleek CoreXY printers, aiming for 45/135 degrees is usually a hit, while the trusty Cartesian printers groove best at 0/90 degrees. And for everything else? Well, there's not much more to do here except rely on the [Global Speed Energy Profile chart](#global-speed-energy-profile) to tune your slicer profile speeds instead.
+Dieses Diagramm ist wie deine Lieblingsplaylist, um jene Winkel zu finden, bei denen die Stimmung genau richtig ist. Aber hier ist der Haken: Beim Drucken wird sich dein Werkzeugkopf in alle Richtungen und Winkel bewegen, abhängig von der Geometrie deiner Teile, daher ist es nicht möglich, sich nur auf einen Winkel zu beschränken. Mein Tipp, um das Beste aus diesem Diagramm für deine Drucke herauszuholen: Wenn du an etwas Rechteckigem arbeitest, versuche es so auszurichten, dass die meisten Kanten mit den Winkeln übereinstimmen, die am wenigsten dazu neigen, deinen Drucker ins Wackeln zu bringen. Für die schicken CoreXY-Drucker ist normalerweise das Zielen auf 45/135 Grad ein Treffer, während die zuverlässigen kartesischen Drucker am besten bei 0/90 Grad funktionieren. Und für alles andere? Nun, es gibt hier nicht viel mehr zu tun, außer sich auf das [Globale Geschwindigkeitsenergieprofil](#global-speed-energy-profile) zu verlassen, um die Geschwindigkeiten deines Slicer-Profils entsprechend anzupassen.
 
-Now, onto the symmetry indicator. Think of this tool as the dance coach for your printer, especially designed for those with a symmetrical setup like CoreXY models. It's all about using some pretty neat math (cross-correlation, to be exact) to check out the vibes from both sides of the dance floor. Picture it as a top-notch party dancer, scanning the room at every angle, judging each dancer, and only giving top marks when everyone is perfectly in sync. This tool is ace at catching any sneakiness in your motor control or belt path, highlighting any "butterfly" shapes or even the slightest variations in the motors' resonance patterns. It's like having a magnifying glass that points out exactly where the party fouls are, helping you to fix them and keep your prints rolling out smooth and stunning.
+Jetzt zum Symmetrieindikator. Denke an dieses Werkzeug als den Tanzcoach deines Druckers, speziell entwickelt für solche mit einem symmetrischen Aufbau wie CoreXY-Modelle. Es geht darum, ziemlich coole Mathematik (Kreuzkorrelation, um genau zu sein) zu verwenden, um die Vibes von beiden Seiten der Tanzfläche zu überprüfen. Stelle es dir vor wie einen Top-Party-Tänzer, der den Raum aus jedem Winkel scannt, jeden Tänzer beurteilt und nur Top-Noten vergibt, wenn jeder perfekt synchron ist. Dieses Werkzeug ist spitze darin, jede Heimlichkeit in deiner Motorsteuerung oder deinem Riemenweg zu erwischen, indem es "Schmetterlings" -Formen oder auch die geringsten Variationen in den Resonanzmustern der Motoren hervorhebt. Es ist, als hättest du eine Lupe, die genau zeigt, wo die Partyfehler sind, und dir hilft, sie zu beheben und deine Drucke reibungslos und atemberaubend herausrollen zu lassen.
 
-### Angular Speed Energy Profiles
+### Winkelgeschwindigkeitsenergieprofile
 
-| Example | description |
+| Beispiel | Beschreibung |
 |:-----|-------------|
-|![](../images/vibrations_graphs/angular_speed_energy_profile.png)|Provides a detailed view of how energy distribution changes with speed for specific angles. It's useful for fine-tuning speeds for different directions of motion, or for tracking and diagnosing your printer's behavior across the major axes|
+|![](../images/vibrations_graphs/angular_speed_energy_profile.png)|Bietet eine detaillierte Ansicht darüber, wie sich die Energieverteilung mit der Geschwindigkeit für bestimmte Winkel ändert. Es ist nützlich, um Geschwindigkeiten für verschiedene Bewegungsrichtungen fein abzustimmen oder das Verhalten deines Druckers entlang der Hauptachsen zu verfolgen und zu diagnostizieren.|
 
-This chart is like a snapshot, capturing the vibe at certain angles of your printing party. But remember, it's just a glimpse into a few specific angles and doesn't fully reveal the whole dance floor where the toolhead moves in every direction, vibing with the unique geometry of your parts. So, think of it as a way to peek into how everyone's grooving in each corner of the party. It's great for a quick check-up to see how the vibe is holding up, but when it comes to setting the rhythm of your slicer speeds, you're going to want to use the [Global Speed Energy Profile chart](#global-speed-energy-profile) instead.
+Dieses Diagramm ist wie ein Schnappschuss, der die Stimmung bei bestimmten Winkeln deiner Druckparty einfängt. Aber denk daran, es ist nur ein Einblick in ein paar spezifische Winkel und enthüllt nicht die gesamte Tanzfläche, auf der sich der Werkzeugkopf in jede Richtung bewegt und mit der einzigartigen Geometrie deiner Teile vibriert. Also sieh es als eine Möglichkeit, einen Blick darauf zu werfen, wie jeder in jeder Ecke der Party groovt. Es ist großartig für einen schnellen Check-up, um zu sehen, wie die Stimmung sich hält, aber wenn es darum geht, den Rhythmus deiner Slicer-Geschwindigkeiten festzulegen, wirst du das [Globale Geschwindigkeitsenergieprofil](#global-speed-energy-profile) verwenden wollen.
 
-### Vibrations Heatmaps
+### Vibrations-Heatmaps
 
-| Example | description |
+| Beispiel | Beschreibung |
 |:-----|-------------|
-|![](../images/vibrations_graphs/vibrations_heatmaps.png)|Both plots provides a comprehensive overview of vibrational energy across speeds and angles. It visually identifies zones of high and low energy, aiding in the comprehensive understanding of the printer motors behavior. It's what is captured by the accelerometer and the base of all the other plots|
+|![](../images/vibrations_graphs/vibrations_heatmaps.png)|Beide Diagramme bieten einen umfassenden Überblick über die Vibrationsenergie über Geschwindigkeiten und Winkel hinweg. Sie helfen visuell, Zonen hoher und niedriger Energie zu identifizieren, was zum umfassenden Verständnis des Verhaltens der Druckermotoren beiträgt. Es ist das, was vom Beschleunigungssensor erfasst wird und die Basis aller anderen Plots darstellt.|
 
-Both heatmaps lay down the vibe of vibrational energy across all speeds and angles, painting a picture of how the beat spreads throughout your printer's dance floor. The polar heatmap gives you a 360-degree whirl of the action, while the regular one lays it out in a classic 2D groove, yet both are vibing to the same tune and showing you where the energy's hot and popping and where it's cool and mellow across your printer's operational range. Think of it as the unique fingerprint of your motor's behavior captured by the accelerometer, it's the raw rhythm of your printer in action.
+Beide Heatmaps legen die Stimmung der Vibrationsenergie über alle Geschwindigkeiten und Winkel fest und malen ein Bild davon, wie der Beat sich über die Tanzfläche deines Druckers ausbreitet. Die polare Heatmap gibt dir einen 360-Grad-Wirbel der Action, während die reguläre sie in einem klassischen 2D-Groove darlegt, doch beide vibrieren zur gleichen Melodie und zeigen dir, wo die Energie heiß und knallend ist und wo sie kühl und sanft ist, quer durch den Betriebsbereich deines Druckers. Denke daran als den einzigartigen Fingerabdruck des Verhaltens deines Motors, erfasst vom Beschleunigungssensor, es ist der rohe Rhythmus deines Druckers in Aktion.
 
-Because the scale is both normalized and logarithmic, you're looking for a heatmap (or spectrogram) that has a cool, consistent "orangish" vibe throughout, signaling not so much change over the spectrum with fairly low motor resonances. See areas in your heatmap that swing from deep purple/black to bright white/yellow? That's a sign that your printer motors are hitting high resonances at certain angles and speed combinations that are above the baseline vibrations outside of those areas. But remember, this is just the lay of the land, a snapshot of the scene: tweaking this vibe directly may not be easy, but you can still [play around with the TMC driver parameters](#improving-the-results) to adjust the beats and find a smoother rhythm.
+Da die Skala sowohl normalisiert als auch logarithmisch ist, suchst du nach einer Heatmap (oder einem Spektrogramm), das durchgehend eine kühle, konstante "orange" Stimmung hat, was darauf hinweist, dass es über das Spektrum hinweg nicht viel Veränderung gibt, mit ziemlich niedrigen Motorresonanzen. Siehst du Bereiche in deiner Heatmap, die von tiefem Lila/Schwarz zu hellem Weiß/Gelb wechseln? Das ist ein Zeichen dafür, dass deine Druckermotoren bei bestimmten Winkeln und Geschwindigkeitskombinationen hohe Resonanzen erreichen, die über den Baseline-Vibrationen außerhalb dieser Bereiche liegen. Aber denk daran, das ist nur die Lage des Landes, ein Schnappschuss der Szene: Diese Stimmung direkt zu verändern, ist vielleicht nicht einfach, aber du kannst immer noch [mit den TMC-Treiberparametern herumspielen](#improving-the-results), um die Beats anzupassen und einen glatteren Rhythmus zu finden.
 
-### Motor Frequency Profile
+### Motorfrequenzprofil
 
-| Example | description |
+| Beispiel | Beschreibung |
 |:-----|-------------|
-|![](../images/vibrations_graphs/motor_frequency_profile.png)|Identifies the resonant frequencies of the motors and their damping ratios. Informative for now, but will be used later|
+|![](../images/vibrations_graphs/motor_frequency_profile.png)|Identifiziert die Resonanzfrequenzen der Motoren und ihre Dämpfungsverhältnisse. Informativ für jetzt, wird aber später verwendet.|
 
-For now, this graph is purely informational and is a measurement of the motor's natural resonance profile. Think of this plot as a sneak peek at the inner workings of your printer's dance floor. It's not quite ready to hit the main stage for practical use, but just you wait... Keep an eye on this chart as it hints at future remixes where you'll get to play DJ and tweak and tune your printer's performance like never before.
+Für jetzt ist dieses Diagramm rein informativ und misst das natürliche Resonanzprofil des Motors. Denke an dieses Diagramm als einen kleinen Einblick in das Innenleben der Tanzfläche deines Druckers. Es ist noch nicht ganz bereit, auf der Hauptbühne praktisch verwendet zu werden, aber warte nur... Behalte dieses Diagramm im Auge, denn es deutet auf zukünftige Remixe hin, bei denen du DJ spielen und die Leistung deines Druckers wie nie zuvor optimieren kannst.
 
 
-## Improving the results
+## Verbesserung der Ergebnisse
 
-These graphs essentially depict the behavior of the motor control on your machine. While there isn't much room for easy adjustments to enhance them, most of you should only utilize them to configure your slicer profile to avoid problematic speeds.
+Diese Diagramme stellen im Wesentlichen das Verhalten der Motorsteuerung deiner Maschine dar. Während es nicht viel Spielraum für einfache Anpassungen zur Verbesserung gibt, sollten die meisten von euch sie nur nutzen, um euer Slicer-Profil zu konfigurieren, um problematische Geschwindigkeiten zu vermeiden.
 
-However, if you want to go the rabbit hole, as the data in these graphs largely hinges on the type of motors, their physical characteristic and the way they are controlled by the TMC drivers black magic, there are opportunities for optimization. Tweaking TMC parameters allow to adjust the peaks, enhance machine performance, or diminish overall machine noise. For this process, I recommend to directly use the [Klipper TMC Autotune](https://github.com/andrewmcgr/klipper_tmc_autotune) plugin, which should simplify everything considerably. But keep in mind that it's still an experimental plugin and it's not perfect.
+Wenn du jedoch tiefer in die Materie eindringen möchtest, da die Daten in diesen Diagrammen größtenteils von der Art der Motoren, ihren physischen Eigenschaften und der Art und Weise abhängen, wie sie von den TMC-Treibern gesteuert werden, gibt es Optimierungsmöglichkeiten. Das Anpassen der TMC-Parameter ermöglicht es, die Peaks anzupassen, die Maschinenleistung zu verbessern oder das Gesamtmaschinengeräusch zu verringern. Für diesen Prozess empfehle ich, direkt das [Klipper TMC Autotune](https://github.com/andrewmcgr/klipper_tmc_autotune) Plugin zu verwenden, das alles erheblich vereinfachen sollte. Aber bedenke, dass es sich immer noch um ein experimentelles Plugin handelt und es nicht perfekt ist.
 
-For individuals inclined to reach the bottom of the rabbit hole and that want to handle this manually, the use of an oscilloscope is mandatory. Majority of the necessary resources are available directly on the Trinamics TMC website:
-  1. You should first consult the datasheet specific to your TMC model for guidance on parameter names and their respective uses.
-  2. Then to tune the parameters, have a look at the application notes available on their platform, especially [AN001](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN001-SpreadCycle.pdf), [AN002](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN002-StallGuard2.pdf), [AN003](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN003_-_DcStep_Basics_and_Wizard.pdf) and [AN009](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN009_Tuning_coolStep.pdf).
-  3. For a more comprehensive understanding, you might also want to explore [AN015](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN015-StealthChop_Performance.pdf) and [AN021](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN021-StealthChop_Performance_comparison_V1.12.pdf ), although they are more geared towards enhancing comprehension than calibration, akin to the TMC datasheet.
+Für Personen, die bereit sind
 
-For reference, the default settings used in Klipper are:
+, bis zum Ende des Kaninchenbaus vorzudringen und dies manuell zu handhaben, ist die Verwendung eines Oszilloskops obligatorisch. Die meisten benötigten Ressourcen sind direkt auf der Trinamics TMC-Website verfügbar:
+  1. Du solltest zuerst das Datenblatt zu deinem TMC-Modell konsultieren, um Anleitung zu den Parameternamen und ihren jeweiligen Verwendungen zu erhalten.
+  2. Dann, um die Parameter einzustellen, sieh dir die Anwendungshinweise auf ihrer Plattform an, insbesondere [AN001](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN001-SpreadCycle.pdf), [AN002](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN002-StallGuard2.pdf), [AN003](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN003_-_DcStep_Basics_and_Wizard.pdf) und [AN009](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN009_Tuning_coolStep.pdf).
+  3. Für ein umfassenderes Verständnis möchtest du vielleicht auch [AN015](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN015-StealthChop_Performance.pdf) und [AN021](https://www.trinamic.com/fileadmin/assets/Support/AppNotes/AN021-StealthChop_Performance_comparison_V1.12.pdf) erkunden, obwohl diese eher darauf ausgerichtet sind, das Verständnis zu verbessern als die Kalibrierung, ähnlich wie das TMC-Datenblatt.
+
+Zur Referenz, die Standard-Einstellungen, die in Klipper verwendet werden, sind:
 ```
 #driver_TBL: 2
 #driver_TOFF: 3
