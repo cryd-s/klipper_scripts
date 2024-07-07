@@ -47,17 +47,75 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
     primary_branch: main
     managed_services: klipper
 
-## Funktionalität
-
+## Makros:
   `FLOW_MULTIPLIER_CALIBRATION`: Bestimmt den optimalen Extrusionsfaktor. Dieser kann im Slicer gespeichert werden.
-    COMPUTE_FLOW_MULTIPLIER: Wird verwendet, um den optimalen Extrusionsfaktor zu berechnen.
-
+  `COMPUTE_FLOW_MULTIPLIER`: Wird verwendet, um den optimalen Extrusionsfaktor zu berechnen.
   `PRESSURE_ADVANCE_CALIBRATION`: Bestimmt das optimale PA. Kann im Slicer gespeichert werden.
-  
-  `MAX_FLOW_CALIBRATION`: Bestimmt den maximalen Durchfluss unter den eingestellten Bedingungen.
-  
-  `AXES_SHAPER_CALIBRATION`: Bestimmt die optimalen Werte für den Input Shaper. Diese können in der printer.cfg gespeichert werden.
-  
-  `VIBRATIONS_CALIBRATION`: Bestimmt die Vibrationen abhängig von der Geschwindigkeit. Sollte nur mit aktiviertem Input Shaper ausgeführt werden.
-  
-  `BELTS_SHAPER_CALIBRATION`: Bestimmt die Spannung der Riemen. Nur nutzbar für CoreXY-Systeme.
+
+## Shake&Tune-Funktionen
+
+| Shake&Tune-Befehl | Beispielgrafiken |
+|:------|:-------:|
+|[`AXES_MAP_CALIBRATION`](./macros/axes_map_calibration.md)<br /><br />Überprüft, ob Ihr Beschleunigungssensor korrekt funktioniert und findet automatisch den `axes_map`-Parameter von Klipper | [<img src="./images/axesmap_example.png">](./macros/axes_map_calibration.md) |
+|[`COMPARE_BELTS_RESPONSES`](./macros/compare_belts_responses.md)<br /><br />Erstellt ein Differenzdiagramm für Riemenresonanzen, um die relativen Riemenspannungen und das Verhalten der Riemenpfade bei einem CoreXY- oder CoreXZ-Drucker zu überprüfen | [<img src="./images/belts_example.png">](./macros/compare_belts_responses.md) |
+|[`AXES_SHAPER_CALIBRATION`](./macros/axes_shaper_calibrations.md)<br /><br />Erstellt die üblichen Eingabeshaper-Diagramme, um die Eingabeshaper-Filter von Klipper zu optimieren und Ringing/Ghosting zu reduzieren | [<img src="./images/axis_example.png">](./macros/axes_shaper_calibrations.md) |
+|[`CREATE_VIBRATIONS_PROFILE`](./macros/create_vibrations_profile.md)<br /><br />Misst die globalen Maschinenvibrationen in Abhängigkeit von der Richtung und Geschwindigkeit des Werkzeugkopfes, um problematische Bereiche zu finden, in denen der Drucker stärkeren VFAs ausgesetzt sein könnte, um Ihre Slicer-Geschwindigkeitsprofile und TMC-Treiberparameter zu optimieren | [<img src="./images/vibrations_example.png">](./macros/create_vibrations_profile.md) |
+|[`EXCITATE_AXIS_AT_FREQ`](./macros/excitate_axis_at_freq.md)<br /><br />Hält eine spezifische Erregungsfrequenz aufrecht, nützlich, um Parasitenpeaks zu untersuchen und herauszufinden, was resoniert | [<img src="./images/excitate_at_freq_example.png">](./macros/excitate_axis_at_freq.md) |
+
+## Resonanztest-Arbeitsablauf
+
+Ein standardmäßiger Abstimmungsablauf könnte folgendermaßen aussehen:
+
+```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'lineColor': '#232323',
+      'primaryTextColor': '#F2055C',
+      'secondaryColor': '#D3D3D3',
+      'tertiaryColor': '#FFFFFF'
+    }
+  }
+}%%
+
+flowchart TB
+    subgraph Abstimmungsablauf
+    direction LR
+    start([Start]) --> tensionBelts[Spanne deine\nRiemen so gut\nwie möglich]
+    checkmotion --> tensionBelts
+    tensionBelts --> SnT_Belts[Führe das Shake&Tune\nRiemenvergleichswerkzeug aus]
+    SnT_Belts --> goodbelts{Überprüfe die Dokumentation\nSehen die Riemenvergleichsprofile\ngut aus?}
+    goodbelts --> |JA| SnT_IS[Führe das Shake&Tune\nAchsen-Input-Shaper-Werkzeug aus]
+    goodbelts --> |NEIN| checkmotion[Repariere deine mechanische Montage\nund dein Bewegungssystem]
+    SnT_IS --> goodIS{Überprüfe die Dokumentation\nSehen die Achsenprofile und\nInput-Shaper gut aus?}
+    goodIS --> |JA| SnT_Vibrations[Führe das Shake&Tune\nVibrationsprofil-Werkzeug aus]
+    goodIS--> |NEIN| checkmotion
+    SnT_Vibrations --> goodvibs{Überprüfe die Dokumentation\nSind die Diagramme in Ordnung?\nSetze die Geschwindigkeiten in\ndeinem Slicer-Profil}
+    goodvibs --> |JA| pressureAdvance[Stimme dein\nDruckvorschub an]
+    goodvibs --> |NEIN| checkTMC[Wenn du willst, beschäftige dich mit der\nAbstimmung der TMC-Treiber]
+    goodvibs --> |NEIN| checkmotion
+    checkTMC --> SnT_Vibrations
+    pressureAdvance --> extrusionMultiplier[Stimme deinen\nExtrusionsmultiplikator an]
+    extrusionMultiplier --> testPrint[Mache einen Testdruck]
+    testPrint --> printGood[Ist der Druck gut?]
+    printGood --> |JA| unicorn[Möchtest du Einhörner jagen]
+    printGood --> |NEIN -> Unterextrusion / Überextrusion| extrusionMultiplier
+    printGood --> |NEIN -> Eckschwankungen und kein Ghosting| pressureAdvance
+    printGood --> |NEIN -> Sichtbare VFAs| SnT_Vibrations
+    printGood --> |NEIN -> Ghosting, Ringing, Resonanz| SnT_IS
+    unicorn --> |NEIN| done
+    unicorn --> |JA| SnT_Belts
+    end
+
+    classDef standard fill:#70088C,stroke:#150140,stroke-width:4px,color:#ffffff;
+    classDef questions fill:#FF8D32,stroke:#F24130,stroke-width:4px,color:#ffffff;
+    classDef startstop fill:#F2055C,stroke:#150140,stroke-width:3px,color:#ffffff;
+    class start,done startstop;
+    class goodbelts,goodIS,goodvibs,printGood,unicorn questions;
+    class tensionBelts,checkmotion,SnT_Belts,SnT_IS,SnT_Vibrations,pressureAdvance,extrusionMultiplier,testPrint,checkTMC standard;
+```
+
+## Ergänzende Ressourcen
+
+  - [Beitrag von Sineos](https://klipper.discourse.group/t/interpreting-the-input-shaper-graphs/9879) in der Klipper-Wissensdatenbank
