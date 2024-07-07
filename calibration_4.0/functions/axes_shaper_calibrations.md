@@ -1,171 +1,128 @@
-# Input shaper filters calibration
+Übersetzung von: https://github.com/Frix-x/klippain-shaketune/edit/main/docs/macros/axes_shaper_calibrations.md
 
-The `AXES_SHAPER_CALIBRATION` macro is used to measure and plot your machine axis frequency profiles in order to tune Klipper's input shaper system.
+# Kalibrierung der Eingabeshaper-Filter
 
+Das Makro `AXES_SHAPER_CALIBRATION` wird verwendet, um die Frequenzprofile deiner Maschinenachsen zu messen und darzustellen, um Klippers Eingabeshaping-System einzustellen.
 
-## Usage
+## Verwendung
 
-**Before starting, ensure that the belts are properly tensioned** and that you already have good and clear belt graphs (see [the previous section](./belts_tuning.md)).
+**Bevor du anfängst, stelle sicher, dass die Riemen richtig gespannt sind** und dass du bereits gute und klare Riemen-Diagramme hast (siehe [den vorherigen Abschnitt](./belts_tuning.md)).
 
-Then, call the `AXES_SHAPER_CALIBRATION` macro and look for the graphs in the results folder. Here are the parameters available:
+Rufe dann das Makro `AXES_SHAPER_CALIBRATION` auf und suche im Ergebnisordner nach den Diagrammen. Hier sind die verfügbaren Parameter:
 
-| parameters | default value | description |
+| Parameter | Standardwert | Beschreibung |
 |-----------:|---------------|-------------|
-|FREQ_START|None (default to `[resonance_tester]` value)|starting excitation frequency|
-|FREQ_END|None (default to `[resonance_tester]` value)|maximum excitation frequency|
-|HZ_PER_SEC|1|number of Hz per seconds for the test|
-|ACCEL_PER_HZ|None (default to `[resonance_tester]` value)|accel per Hz value used for the test|
-|AXIS|"all"|axis you want to test in the list of "all", "X" or "Y"|
-|SCV|printer square corner velocity|square corner velocity you want to use to calculate shaper recommendations. Using higher SCV values usually results in more smoothing and lower maximum accelerations|
-|MAX_SMOOTHING|None|max smoothing allowed when calculating shaper recommendations|
-|TRAVEL_SPEED|120|speed in mm/s used for all the travel movements (to go to the start position prior to the test)|
-|Z_HEIGHT|None|Z height wanted for the test. This value can be used if needed to override the Z value of the probe_point set in your `[resonance_tester]` config section|
+|FREQ_START|Keiner (Standardwert aus `[resonance_tester]`)|Startfrequenz der Anregung|
+|FREQ_END|Keiner (Standardwert aus `[resonance_tester]`)|Maximale Anregungsfrequenz|
+|HZ_PER_SEC|1|Anzahl der Hz pro Sekunde für den Test|
+|ACCEL_PER_HZ|Keiner (Standardwert aus `[resonance_tester]`)|Beschleunigung pro Hz, die für den Test verwendet wird|
+|AXIS|"all"|Achse, die du testen möchtest, aus der Liste "all", "X" oder "Y"|
+|SCV|Drucker Eckgeschwindigkeit|Eckgeschwindigkeit, die du verwenden möchtest, um Shaper-Empfehlungen zu berechnen. Höhere SCV-Werte führen in der Regel zu mehr Glättung und niedrigeren maximalen Beschleunigungen|
+|MAX_SMOOTHING|Keiner|maximale Glättung, die bei der Berechnung der Shaper-Empfehlungen erlaubt ist|
+|TRAVEL_SPEED|120|Geschwindigkeit in mm/s, die für alle Reisebewegungen verwendet wird (um zur Startposition vor dem Test zu gelangen)|
+|Z_HEIGHT|Keiner|Z-Höhe, die für den Test gewünscht wird. Dieser Wert kann verwendet werden, um bei Bedarf den Z-Wert des probe_point in deinem `[resonance_tester]` Konfigurationsabschnitt zu überschreiben|
 
 ![](../images/shaper_graphs/shaper_graph_explanation.png)
 
-## Generalities on IS graphs
+## Allgemeines zu IS-Diagrammen
 
-To effectively analyze input shaper graphs, there is no one-size-fits-all approach due to the variety of factors that can impact the 3D printer's performance or input shaper measurements. However, here are some hints on reading the graphs:
-  - A graph with a **single and thin peak** well detached from the background noise is ideal, as it can be easily filtered by input shaping. But depending on the machine and its mechanical configuration, it's not always possible to obtain this shape. The key to getting better graphs is a clean mechanical assembly with a special focus on the rigidity and stiffness of everything, from the table the printer sits on to the frame and the toolhead.
-  - As for the belt graphs, **focus on the shape of the graphs, not the values**. Indeed, the energy value doesn't provide much useful information. Use it only to compare two of your own graphs and to measure the impact of your mechanical changes between two consecutive tests, but never use it to compare against graphs from other people or other machines.
+Um Eingabeshaper-Diagramme effektiv zu analysieren, gibt es keinen universellen Ansatz aufgrund der Vielzahl von Faktoren, die die Leistung des 3D-Druckers oder die Messungen des Eingabeshapers beeinflussen können. Hier sind jedoch einige Hinweise zur Interpretation der Diagramme:
+  - Ein Diagramm mit einem **einzigen und dünnen Peak**, der sich gut vom Hintergrundrauschen abhebt, ist ideal, da es leicht durch Eingabeshaping gefiltert werden kann. Je nach Maschine und deren mechanischer Konfiguration ist es jedoch nicht immer möglich, diese Form zu erhalten. Der Schlüssel zu besseren Diagrammen ist eine saubere mechanische Montage mit einem besonderen Fokus auf die Steifigkeit und Festigkeit von allem, vom Tisch, auf dem der Drucker steht, bis zum Rahmen und dem Werkzeugkopf.
+  - Wie bei den Riemen-Diagrammen **konzentriere dich auf die Form der Diagramme, nicht auf die Werte**. Tatsächlich liefert der Energie-Wert nicht viele nützliche Informationen. Verwende ihn nur, um zwei deiner eigenen Diagramme zu vergleichen und die Auswirkungen deiner mechanischen Änderungen zwischen zwei aufeinanderfolgenden Tests zu messen, aber niemals, um sie mit Diagrammen von anderen Personen oder anderen Maschinen zu vergleichen.
 
 ![](../images/shaper_graphs/shaper_recommandations.png)
 
-For setting your Input Shaping filters, rely on the auto-computed values displayed in the top right corner of the graph. Here's a breakdown of the legend for a better grasp:
-  - **Filtering algortihms**: This computation works pretty well if the graphs are clean enough. But if your graphs are junk, it can't do magic and will give you pretty bad recommendations. It's better to address the mechanical issues first before continuing. Each shapers has its pro and cons:
-    * `ZV` is a pretty light filter and usually has some remaining vibrations. Use it only if you want to do speed benchies and get the highest accelerations while maintaining a low amount of smoothing on your parts. If you have "perfect" graphs and do not care that much about some remaining ringing, you can try it.
-    * `MZV` is usually the top pick for well-adjusted machines. It's a good compromise for low remaining vibrations while still allowing pretty good accelerations. Keep in mind, `MZV` is only recommended on good graphs.
-    * `EI` can be used as a fallback for challenging graphs. But first, try to fix your mechanical issues before using it: almost every printer should be able to run `MZV` instead.
-    * `2HUMP_EI` and `3HUMP_EI` are last-resort choices as they usually lead to a high level of smoothing. If they pop up as the main suggestions, it's likely your machine has underlying mechanical issues (that lead to pretty bad or "wide" graphs).
-  - **Recommended Acceleration** (`accel<=...`): This isn't a standalone value: you need to also consider the `vibr` and `sm` values as it's a compromise between the three. They will give you the remaining vibrations and the smoothing after Input Shaping, at the recommended acceleration. Nothing will prevent you from using higher acceleration values; they are not a limit. However, in this case, Input Shaping may not be able to suppress all the ringing on your parts, and more smoothing will occur. Finally, keep in mind that high accelerations are not useful at all if there is still a high level of remaining vibrations: you should address any mechanical issues first.
-  - **The remaining vibrations** (`vibr`): This directly correlates to ringing. Ideally, you want a filter with minimal remaining vibrations.
-  - **Shaper recommendations**: This script will give you some tailored recommendations based on your graphs. Pick the one that suit your needs:
-    * The "performance" shaper, which should be good for most people as it's a compromise for high accelerations, with little residual vibrations that should remove most ringing on your parts.
-    * The "low vibration" shaper aims for a lower level of remaining vibration to ensure the best print quality with minimal ringing. This should be used in case the performance shaper is not good enough for your needs.
-    * Sometimes only a single recommendation is given as the "best" shaper. This means that either no suitable "performance" shaper was found (due to a high level of residual vibrations or too much smoothing), or that the "low vibration" shaper is the same as the "performance" shaper.
-  - **Damping Ratio**: At the end, you will see an estimate based on your measured data, which will be used to better tailor the shaper recommendations to your machine. You need to define it in the `[input_shaper]` section.
+Für die Einstellung deiner Eingabeshaping-Filter verlasse dich auf die automatisch berechneten Werte, die in der oberen rechten Ecke des Diagramms angezeigt werden. Hier ist eine Erklärung der Legende für ein besseres Verständnis:
+  - **Filteralgorithmen**: Diese Berechnung funktioniert ziemlich gut, wenn die Diagramme sauber genug sind. Aber wenn deine Diagramme schlecht sind, kann sie keine Wunder vollbringen und wird dir ziemlich schlechte Empfehlungen geben. Es ist besser, die mechanischen Probleme zuerst zu adressieren, bevor du weitermachst. Jeder Shaper hat seine Vor- und Nachteile:
+    * `ZV` ist ein ziemlich leichter Filter und hat normalerweise einige verbleibende Vibrationen. Verwende ihn nur, wenn du Geschwindigkeitstests machen möchtest und die höchsten Beschleunigungen bei geringer Glättung deiner Teile erreichen möchtest. Wenn du "perfekte" Diagramme hast und dir etwas verbleibendes Ringing nichts ausmacht, kannst du ihn ausprobieren.
+    * `MZV` ist normalerweise die erste Wahl für gut eingestellte Maschinen. Es ist ein guter Kompromiss für geringe verbleibende Vibrationen und erlaubt dennoch ziemlich gute Beschleunigungen. Beachte, dass `MZV` nur bei guten Diagrammen empfohlen wird.
+    * `EI` kann als Ausweichoption für herausfordernde Diagramme verwendet werden. Aber versuche zuerst, deine mechanischen Probleme zu beheben, bevor du ihn verwendest: fast jeder Drucker sollte stattdessen `MZV` verwenden können.
+    * `2HUMP_EI` und `3HUMP_EI` sind letzte Ausweichmöglichkeiten, da sie normalerweise zu einem hohen Grad an Glättung führen. Wenn sie als Hauptvorschläge auftauchen, ist es wahrscheinlich, dass deine Maschine zugrunde liegende mechanische Probleme hat (die zu ziemlich schlechten oder "breiten" Diagrammen führen).
+  - **Empfohlene Beschleunigung** (`accel<=...`): Dies ist kein eigenständiger Wert: Du musst auch die `vibr`- und `sm`-Werte berücksichtigen, da es ein Kompromiss zwischen den dreien ist. Sie geben dir die verbleibenden Vibrationen und die Glättung nach dem Eingabeshaping bei der empfohlenen Beschleunigung. Nichts hindert dich daran, höhere Beschleunigungswerte zu verwenden; sie sind keine Grenze. In diesem Fall kann das Eingabeshaping jedoch nicht alle Ringing-Effekte auf deinen Teilen unterdrücken, und es wird mehr Glättung auftreten. Denke daran, dass hohe Beschleunigungen überhaupt nicht nützlich sind, wenn noch ein hohes Maß an verbleibenden Vibrationen vorhanden ist: Du solltest zuerst alle mechanischen Probleme beheben.
+  - **Verbleibende Vibrationen** (`vibr`): Diese stehen direkt mit Ringing in Verbindung. Idealerweise möchtest du einen Filter mit minimalen verbleibenden Vibrationen.
+  - **Shaper-Empfehlungen**: Dieses Skript gibt dir einige maßgeschneiderte Empfehlungen basierend auf deinen Diagrammen. Wähle den aus, der deinen Bedürfnissen entspricht:
+    * Der "Performance"-Shaper, der für die meisten Menschen gut sein sollte, da er ein Kompromiss für hohe Beschleunigungen mit geringen verbleibenden Vibrationen ist, der die meisten Ringing-Effekte auf deinen Teilen entfernen sollte.
+    * Der "Low Vibration"-Shaper zielt auf ein niedrigeres Niveau verbleibender Vibrationen ab, um die beste Druckqualität mit minimalem Ringing zu gewährleisten. Dies sollte verwendet werden, falls der Performance-Shaper nicht ausreichend für deine Bedürfnisse ist.
+    * Manchmal wird nur eine einzige Empfehlung als "bester" Shaper gegeben. Das bedeutet, dass entweder kein geeigneter "Performance"-Shaper gefunden wurde (aufgrund eines hohen Niveaus an verbleibenden Vibrationen oder zu viel Glättung), oder dass der "Low Vibration"-Shaper derselbe wie der "Performance"-Shaper ist.
+  - **Dämpfungsverhältnis**: Am Ende siehst du eine Schätzung basierend auf deinen gemessenen Daten, die verwendet wird, um die Shaper-Empfehlungen besser auf deine Maschine zuzuschneiden. Du musst es im Abschnitt `[input_shaper]` definieren.
 
-Then, add to your configuration:
+Füge dann zu deiner Konfiguration hinzu:
 ```
 [input_shaper]
-shaper_freq_x: ... # center frequency for the X axis filter
-shaper_type_x: ... # filter type for the X axis
-shaper_freq_y: ... # center frequency for the Y axis filter
-shaper_type_y: ... # filter type for the Y axis
-damping_ratio_x: ... # damping ratio for the X axis
-damping_ratio_y: ... # damping ratio for the Y axis
+shaper_freq_x: ... # Zentralfrequenz für den X-Achsen-Filter
+shaper_type_x: ... # Filtertyp für die X-Achse
+
+
+shaper_freq_y: ... # Zentralfrequenz für den Y-Achsen-Filter
+shaper_type_y: ... # Filtertyp für die Y-Achse
+damping_ratio_x: ... # Dämpfungsverhältnis für die X-Achse
+damping_ratio_y: ... # Dämpfungsverhältnis für die Y-Achse
 ```
 
-## Useful facts and myths debunking
+## Nützliche Fakten und Mythenentlarvung
 
-Some people suggest to cap data at 100 Hz by manually editing the .csv file, thinking values beyond that are wrong. But this can be misleading. The excitation and system's response frequencies differ, and aren't directly linked. You might see vibrations beyond the excitation range, and removing them from the file just hides potential issues. Though these high-frequency vibrations might not always affect print quality, they could signal mechanical problems. Instead of hiding them, look into resolving these issues.
+Manche Leute schlagen vor, Daten bei 100 Hz zu kappen, indem sie die .csv-Datei manuell bearbeiten, weil sie denken, dass Werte darüber falsch sind. Aber das kann irreführend sein. Die Anregungs- und Systemantwortfrequenzen unterscheiden sich und sind nicht direkt miteinander verbunden. Du könntest Vibrationen über den Anregungsbereich hinaus sehen, und sie aus der Datei zu entfernen, verdeckt nur potenzielle Probleme. Obwohl diese hochfrequenten Vibrationen nicht immer die Druckqualität beeinflussen, könnten sie mechanische Probleme signalisieren. Anstatt sie zu verbergen, solltest du versuchen, diese Probleme zu lösen.
 
-Regarding printer components, I do not recommend using an extra-light X-beam (aluminum or carbon). They might seem ideal due to their weight, but there's more to consider than just mass such as the rigidity (see the [theory behind it](../is_tuning_generalities.md#theory-behind-it)). These light beams can be more flexible and will impact negatively the Y axis graphs as they will flex under high accelerations.
+Bezüglich der Druckerkomponenten empfehle ich nicht, einen extra leichten X-Balken (Aluminium oder Carbon) zu verwenden. Sie mögen aufgrund ihres Gewichts ideal erscheinen, aber es gibt mehr zu beachten als nur die Masse, wie die Steifigkeit (siehe [die Theorie dahinter](../is_tuning_generalities.md#theory-behind-it)). Diese leichten Balken können flexibler sein und sich negativ auf die Y-Achsen-Diagramme auswirken, da sie unter hohen Beschleunigungen nachgeben.
 
-Finally, keep in mind that each axis has its own properties, such as mass and geometry, which will lead to different behaviors for each of them and will require different filters. Using the same input shaping settings for both axes is only valid if both axes are similar mechanically: this may be true for some machines, mainly Cross gantry configurations such as [CroXY](https://github.com/CroXY3D/CroXY) or [Annex-Engineering](https://github.com/Annex-Engineering) printers, but not for others.
+Denke schließlich daran, dass jede Achse ihre eigenen Eigenschaften hat, wie Masse und Geometrie, die zu unterschiedlichem Verhalten führen werden und unterschiedliche Filter erfordern. Dieselben Eingabeshaping-Einstellungen für beide Achsen zu verwenden, ist nur gültig, wenn beide Achsen mechanisch ähnlich sind: Dies mag für einige Maschinen zutreffen, hauptsächlich für Cross-Gantry-Konfigurationen wie [CroXY](https://github.com/CroXY3D/CroXY) oder [Annex-Engineering](https://github.com/Annex-Engineering)-Drucker, aber nicht für andere.
 
 
-## Examples of graphs
+## Beispiele für Diagramme
 
-In this section, I'll walk you through some random graphs sourced online or shared with me for analysis. My aim is to highlight the good and the not-so-good, offering insights to help you refine your printer's Input Shaping settings.
+In diesem Abschnitt führe ich dich durch einige zufällige Diagramme, die online gefunden oder mir zur Analyse geteilt wurden. Mein Ziel ist es, das Gute und das Nicht-so-Gute hervorzuheben und dir Einblicke zu geben, um die Eingabeshaping-Einstellungen deines Druckers zu verfeinern.
 
-That said, interpreting Input Shaper graphs isn't an exact science. While we can make educated guesses and highlight potential issues from these graphs, pinpointing exact causes isn't always feasible. So, consider the upcoming graphs and their comments as pointers on your input shaping journey, rather than hard truths.
+Das gesagt, ist die Interpretation von Eingabeshaper-Diagrammen keine exakte Wissenschaft. Während wir gebildete Vermutungen anstellen und potenzielle Probleme aus diesen Diagrammen hervorheben können, ist es nicht immer möglich, genaue Ursachen zu identifizieren. Daher betrachte die kommenden Diagramme und ihre Kommentare als Wegweiser auf deiner Reise durch das Eingabeshaping, anstatt als unumstößliche Wahrheiten.
 
-### Good graphs
+### Gute Diagramme
 
-These two graphs are considered good and is what you're aiming for. They each display a single, distinct peak that stands out clearly against the background noise. Note that the main frequencies of the X and Y graph peaks differ. This variance is expected and normal, as explained in the last point of the [useful facts and myths debunking](#useful-facts-and-myths-debunking) section. The spectrogram is clean with only the resonance diagonals. Note that a fan was running during the test, as shown by the purple vertical line (see section [fan behavior](#fan-behavior)).
+Diese beiden Diagramme gelten als gut und sind das, was du anstreben solltest. Sie zeigen jeweils einen einzelnen, deutlichen Peak, der sich klar vom Hintergrundrauschen abhebt. Beachte, dass die Hauptfrequenzen der Peaks in den X- und Y-Diagrammen unterschiedlich sind. Diese Varianz ist erwartet und normal, wie im letzten Punkt des Abschnitts [Nützliche Fakten und Mythenentlarvung](#useful-facts-and-myths-debunking) erklärt. Das Spektrogramm ist sauber, nur mit den Resonanzdiagonalen. Beachte, dass während des Tests ein Lüfter lief, wie durch die lila vertikale Linie gezeigt (siehe Abschnitt [Lüfter](#fan-behavior)).
 
-| Good X graph | Good Y graph |
+| Gutes X-Diagramm | Gutes Y-Diagramm |
 | --- | --- |
 | ![](../images/shaper_graphs/good_x.png) | ![](../images/shaper_graphs/good_y.png) |
 
-### Low frequency energy
+### Niedrige Frequenzenergie
 
-These graphs have low frequency (near 0 Hz) at a rather low maximum amplitude (around 1e2 or 1e3) signal. This means that there is some binding, rubbing, or grinding during motion: basically, something isn't moving freely. Minor low frequency energy in the graphs can be due to many problems, such as a faulty idlers/bearing or an over-tightened carriage screw that prevents it from moving freely on its linear rail, a belt running on a bearing flange, ... However, large amounts of low frequency energy indicate more important problems such as improper belt routing (the most common), or defective motor, ...
+Diese Diagramme haben eine niedrige Frequenz (nahe 0 Hz) bei einer eher niedrigen maximalen Amplitude (um 1e2 oder 1e3) Signal. Das bedeutet, dass es zu Bindungen, Reibungen oder Schleifen während der Bewegung kommt: grundsätzlich bewegt sich etwas nicht frei. Geringfügige niedrige Frequenzenergie in den Diagrammen kann auf viele Probleme zurückzuführen sein, wie z.B. fehlerhafte Umlenkrollen/Lager oder eine zu fest angezogene Wagenschraube, die verhindert, dass sie sich frei auf ihrer Linearführung bewegt, ein Riemen, der auf einem Lagerflansch läuft, ... Große Mengen an niedriger Frequenzenergie deuten jedoch auf wichtigere Probleme hin, wie z.B. falsche Riemenführung (am häufigsten), oder defekte Motoren, ...
 
-Here's how to troubleshoot the issue:
-  1. **Belts Examination**:
-     - Ensure your belts are properly routed.
-     - Check for correct alignment of the belts on all bearing flanges during movement (check them during a print).
-     - Belt dust is often a sign of misalignment or wear.
-  1. **Toolhead behavior on CoreXY printers**: With motors off and the toolhead centered, gently push the Y-axis front-to-back. The toolhead shouldn't move left or right. If it does, one of the belts might be obstructed and requires inspection to find out the problem.
-  1. **Gantry Squareness**:
-     - Ensure your gantry is perfectly parallel and square. You can refer to [Nero3D's de-racking video](https://youtu.be/cOn6u9kXvy0?si=ZCSdWU6br3Y9rGsy) for guidance.
-     - After removing the belts, test the toolhead's movement by hand across all positions. Movement should be smooth with no hard points or areas of resistance.
+Hier ist, wie du das Problem beheben kannst:
+  1. **Riemenuntersuchung**:
+     - Stelle sicher, dass deine Riemen richtig geführt sind.
+     - Überprüfe die korrekte Ausrichtung der Riemen auf allen Lagerflanschen während der Bewegung (überprüfe sie während eines Drucks).
+     - Riemenstaub ist oft ein Zeichen für Fehlausrichtung oder Verschleiß.
+  2. **Verhalten des Werkzeugkopfs bei CoreXY-Druckern**: Bei ausgeschalteten Motoren und zentriertem Werkzeugkopf, schiebe die Y-Achse von vorne nach hinten. Der Werkzeugkopf sollte sich nicht nach links oder rechts bewegen. Wenn doch, könnte einer der Riemen blockiert sein und muss untersucht werden, um das Problem zu finden.
+  3. **Quadratur des Portals**:
+     - Stelle sicher, dass dein Portal perfekt parallel und quadratisch ist. Du kannst dich für eine Anleitung an [Nero3Ds De-Racking-Video](https://youtu.be/cOn6u9kXvy0?si=ZCSdWU6br3Y9rGsy) wenden.
+     - Nachdem du die Riemen entfernt hast, teste die Bewegung des Werkzeugkopfs von Hand in allen Positionen. Die Bewegung sollte glatt sein, ohne harte Punkte oder Widerstandsbereiche.
 
-| Small binding | Heavy binding |
+| Kleine Bindung | Starke Bindung |
 | --- | --- |
 | ![](../images/shaper_graphs/binding.png) | ![](../images/shaper_graphs/binding2.png) |
 
-### Double peaks or wide peaks
+### Doppelpeaks oder breite Peaks
 
-Such graph patterns can arise from various factors, and there isn't a one-size-fits-all solution. To address them:
-  1. A wobbly table can be the cause. So first thing to do is to try with the printer directly on the floor.
-  1. Ensure optimal belt tension using the [`COMPARE_BELTS_RESPONSES` macro](./belts_tuning.md).
-  1. If problems persist, it might be due to an improperly squared gantry. For correction, refer to [Nero3D's de-racking video](https://youtu.be/cOn6u9kXvy0?si=ZCSdWU6br3Y9rGsy).
-  1. If it's still there... you will need to find out what is resonating to fix it. You can use the `EXCITATE_AXIS_AT_FREQ` macro to help you find it.
+Solche Diagrammmuster können aus verschiedenen Faktoren entstehen, und es gibt keine universelle Lösung. Um sie anzugehen:
 
-| Two peaks | Single wide peak |
+1. Ein wackeliger Tisch kann die Ursache sein. Als Erstes solltest du versuchen, den Drucker direkt auf dem Boden zu platzieren.
+2. Stelle eine optimale Riemen-Spannung mit dem [`COMPARE_BELTS_RESPONSES` Makro](./belts_tuning.md) sicher.
+3. Wenn die Probleme weiterhin bestehen, könnte es an einem nicht ordnungsgemäß ausgerichteten Portal liegen. Zur Korrektur kannst du [Nero3Ds De-Racking-Video](https://youtu.be/cOn6u9kXvy0?si=ZCSdWU6br3Y9rGsy) heranziehen.
+4. Wenn es immer noch vorhanden ist, musst du herausfinden, was genau resoniert, um es zu beheben. Du kannst das Makro `EXCITATE_AXIS_AT_FREQ` verwenden, um es zu finden.
+
+| Zwei Peaks | Ein breiter Peak |
 | --- | --- |
 | ![](../images/shaper_graphs/bad_racking.png) | ![](../images/shaper_graphs/bad_racking2.png) |
 
-### Problematic CANBUS speed
+### Problematische CANBUS-Geschwindigkeit
 
-Using CANBUS toolheads with an integrated accelerometer chip can sometimes pose challenges if the CANBUS speed is set too low. While users might lower the bus speed to fix Klipper's timing errors, this change will also affect input shaping measurements. An example outcome of a low bus speed is the following graph that, though generally well-shaped, appears jagged and spiky throughout. Additional low-frequency energy might also be present. For optimal accelerometer board operation on your CANBUS toolhead, a speed setting of 500k is the minimum, but 1M is advisable. You might want to look at [this excellent guide by Esoterical](https://github.com/Esoterical/voron_canbus/tree/main).
+Die Verwendung von CANBUS-Werkzeugköpfen mit integriertem Beschleunigungssensor kann manchmal Herausforderungen darstellen, wenn die CANBUS-Geschwindigkeit zu niedrig eingestellt ist. Während Benutzer die Busgeschwindigkeit senken könnten, um Timing-Fehler von Klipper zu beheben, beeinflusst diese Änderung auch die Messungen zur Eingabeformung. Ein Beispiel für das Ergebnis einer niedrigen Busgeschwindigkeit ist das folgende Diagramm, das, obwohl es generell gut geformt ist, überall gezackt und spitz erscheint. Es könnte auch zusätzliche Niederfrequenzenergie vorhanden sein. Für einen optimalen Betrieb des Beschleunigungssensors auf deinem CANBUS-Werkzeugkopf ist eine Einstellung von 500k das Minimum, aber 1M ist empfehlenswert. Du könntest einen Blick auf [diesen ausgezeichneten Leitfaden von Esoterical](https://github.com/Esoterical/voron_canbus/tree/main) werfen.
 
-| CANBUS problem present | CANBUS problem solved |
+| CANBUS-Problem vorhanden | CANBUS-Problem gelöst |
 | --- | --- |
 | ![](../images/shaper_graphs/low_canbus.png) | ![](../images/shaper_graphs/low_canbus_solved.png) |
 
-### Toolhead or TAP wobble
+### Werkzeugkopf- oder TAP-Schwanken
 
-The [Voron TAP](https://github.com/VoronDesign/Voron-Tap) can introduce anomalies to input shaper graphs, notably on the X graph. Its design with an internal MGN rail introduces a separate and decoupled mass, leading to its own resonance, typically around 125Hz.
+Der [Voron TAP](https://github.com/VoronDesign/Voron-Tap) kann Anomalien in den Eingabeshaper-Diagrammen verursachen, insbesondere im X-Diagramm. Sein Design mit einer internen MGN-Schiene führt eine separate und entkoppelte Masse ein, was zu seiner eigenen Resonanz führt, typischerweise um 125Hz.
 
-Small 125Hz peaks are also most often due to the toolhead itself, since most toolheads are about the same mass. Common culprits include loose screws or a bad quality X linear MGN axis that can have some play in the carriage, causing the toolhead to wobble slightly. This is often shown as a Z component in the graphs and can be amplified by the bowden tube or an umbilical that applies some forces on top of the toolhead.
-
-If your graph shows this kind of anomalies:
-  1. Start by looking at the bowden tube and umbilical to make sure they are not exerting excessive force on the toolhead. You want them to create no drag or as little drag as possible.
-  1. If that's not enough, continue disassembling the toolhead down to the X carriage. Check for any loose or cracked parts, then reassemble, making sure everything is tightened properly for a rigid assembly.
-  1. When using TAP, this can be quite a challenge to combat, but using quality components and careful assembly can help mitigate the problem. In particular, be sure to use a well-preloaded TAP MGN rail for maximum rigidity, coupled with genuine and strong N52 magnets that are properly seated and not loose.
-  1. Don't forget to check your extruder and make sure you have some filament loaded during the measurements to avoid extruder gear vibration.
-
-| TAP wobble problem | TAP wobble problem mitigated<br/>Or toolhead wobbling |
-| --- | --- |
-| ![](../images/shaper_graphs/TAP_125hz.png) | ![](../images/shaper_graphs/TAP_125hz_2.png) |
-
-### Fan behavior
-
-The presence of an unbalanced or poorly running fan can be directly observed in the spectrogram:
-  1. A properly running fan can be seen as a vertical purple line on the spectrogram that doesn't shine too much. This is perfectly normal because it's running at a constant speed (i.e. constant frequency) throughout the test. The purple color means that its vibration energy is quite low and should not cause any problems. There are no corresponding peaks on the top graph.
-  1. When the vertical line on the spectrogram starts to become yellowish, pay special attention to the top graph to see if there is a corresponding peak. In the example from the middle below, the fan is in the limit with a very small bump corresponding to it. So it may or may not cause trouble... Do some test prints and look for VFAs, if you find some you may want to replace the fan.
-  1. If the vertical line is bright orange/yellow, there will most likely be a corresponding thin but high peak on the top graph. This fan is out of balance, producing bad vibrations and needs to be replaced.
-
-| Healthy fan running | Fan start to be problematic | Fan need to be changed |
-| --- | --- | --- |
-| ![](../images/shaper_graphs/fan_notproblematic.png) | ![](../images/shaper_graphs/fan_maybeproblematic.png) | ![](../images/shaper_graphs/fan_problematic.png) |
-
-### Spectrogram lightshow (LIS2DW)
-
-The integration of LIS2DW as a resonance measuring device in Klipper is becoming more and more common, especially because some manufacturers are promoting its superiority over the established ADXL345. It's indeed a new generation chip that should be better to measure traditional "accelerations". However, a detailed comparison of their datasheets and practical measurements paints a more complex picture: the LIS2DW boasts greater sensitivity, but it has a lower sampling rate and produce significant aliasing that results in a "lightshow" effect on the spectrogram, characterized by multiple spurious resonance lines parallel to the main resonance, accompanied by intersecting interference lines that distort the harmonic profile.
-
-While in most cases the overall shape of the upper resonance curve, including resonant frequency and damping ratio, should be close to reality with fairly similar input shaping filter recommendations, this aliasing makes it difficult to identify subtle details and complicates the diagnosis of mechanical problems. In particular, it introduces a potential misinterpretation of "[binding](#low-frequency-energy)" due to a global offset of the curve. In the worst cases (see the last example below), the aliasing is too severe and adds too much noise to the graph, making it unusable.
-
-  > **Note**:
-  >
-  > It seems that some LIS2DW chips are better than others: in some cases aliasing is not a problem, but it can also be very problematic and lead to bad graphs, as seen in the "Extreme Aliasing" example below.
-
-| ADXL345 measurement | LIS2DW measurement | LIS2DW extreme aliasing |
-| --- | --- | --- |
-| ![](../images/shaper_graphs/chipcomp_adxl.png) | ![](../images/shaper_graphs/chipcomp_s2dw.png) | ![](../images/shaper_graphs/chipcomp_s2dw_2.png) |
-
-### Crazy graphs and miscs
-
-The depicted graphs are challenging to analyze due to the overwhelming noise across the spectrum. Such patterns are often associated with an improperly assembled and non-squared mechanical structure. To address this:
-  1. Refer to the [Low frequency energy](#low-frequency-energy) section for troubleshooting steps.
-  1. If unresolved, consider disassembling the entire gantry, inspect the printed and mechanical components, and ensure meticulous reassembly. A thorough and careful assembly should help alleviate the issue. Measure again post-assembly for changes.
-
-Also please note that for this kind of graphs, as they are mainly consisting of noise, Klipper's algorithm recommendations must not be used and will not help with ringing. You will need to fix your mechanical issues instead!
-
-| Crazy X | Crazy Y |
-| --- | --- |
-| ![](../images/shaper_graphs/chaos_x.png) | ![](../images/shaper_graphs/chaos_y.png) |
+Kleine 125Hz-Peaks sind auch meistens auf den Werkzeugkopf selbst zurückzuführen, da die meisten Werkzeugköpfe ungefähr die gleiche Masse haben. Häufige Ursachen sind lose Schrauben oder eine schlechte Qualität der X-Linearschiene, die etwas Spiel im Schlitten haben kann, was dazu führt, dass der Werkzeugkopf leicht schwankt. Dies wird oft als Z-Komponente in den Diagrammen gezeigt und kann durch den Bowdenzug oder ein Kabel, das einige Kräfte auf den Werkzeugkopf ausübt, verstärkt werden.
