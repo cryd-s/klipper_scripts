@@ -1,5 +1,5 @@
-### Idee und Anleitung von Frix_x#0161 (https://github.com/Frix-x) 
-### Übersetzt von Fragmon#2722
+Idee und Anleitung von Frix_x#0161 (https://github.com/Frix-x) 
+Übersetzt von Fragmon#2722
 
 # Kalibrierungsmakro 4.0
 
