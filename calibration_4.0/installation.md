@@ -14,11 +14,12 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
   Die einfachste Installationsmethode ist die Nutzung des erweiterten Bereichs von KIAUH.\
   [KIAUH installieren](https://www.obico.io/blog/install-klipper-with-kiauh/#install-kiauh-on-your-raspberry-pi)\
   Starte KIAUH -> 4) [Erweitert] -> 8) [G-Code Shell Befehl]
-  3. Installiere die Shake-Tune-Python (diese werden in klippy/extras integriert und lassen sich über Befehle später aufrufen      ```bash
+  3. Installiere die Shake-Tune-Python (diese werden in klippy/extras integriert und lassen sich über Befehle später aufrufen
+     ```bash
      wget -O - https://raw.githubusercontent.com/Frix-x/klippain-shaketune/main/install.sh | bash
      ```
-  4. Füge folgende Konfiguration in deine  `printer.cfg` ein:
-     `
+  5. Füge folgende Konfiguration in deine  `printer.cfg` ein:
+     ```
      [shaketune]
      # result_folder: ~/printer_data/config/ShakeTune_results
      #    The folder where the results will be stored. It will be created if it doesn't exist.
@@ -33,10 +34,10 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
      #    printer.cfg file. If you want to see the macros in the webui, set this to True.
      # timeout: 300
      #    The maximum time in seconds to let Shake&Tune process the CSV files and generate the graphs.
-     `
+     ```
      
   6. Füge folgende Konfiguration in deine `moonraker.conf` ein:
-     `
+     ```
     [update_manager Klippain-ShakeTune]
     type: git_repo
     origin: https://github.com/Frix-x/klippain-shaketune.git
@@ -45,7 +46,8 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
     requirements: requirements.txt
     system_dependencies: system-dependencies.json
     primary_branch: main
-    managed_services: klipper`
+    managed_services: klipper
+    ```
 
 ## Funktionalität
 
