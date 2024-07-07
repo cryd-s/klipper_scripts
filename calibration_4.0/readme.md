@@ -7,7 +7,7 @@ Update 07.07.2024 - Aktualisierungen der Anleitungen
 
 ## Beschreibung
 
-Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung deines Druckers helfen.
+Dieses Reopistory erklärt die Makros und Kalibrierungstools, welche dir bei der Einrichtung deines Druckers helfen.
 
 ## Installation
 
