@@ -4,7 +4,7 @@
 
 Dieses Makro druckt eine Reihe von ¨Bändern¨, die jeweils 6 Zeilen enthalten, wobei die ersten 3 Zeilen langsam gedruckt und als Grundlinie/Kontrolle verwendet werden und die anderen 3 mit variablen Geschwindigkeiten in der folgenden Reihenfolge: 25% der Zeile mit niedriger Geschwindigkeit, dann 50% mit hoher Geschwindigkeit und die letzten 25% wieder mit niedriger Geschwindigkeit. Dann wird der Druckvorlaufwert für jedes Band erhöht.
 
-![PA_calibration.png](./images/pa_calibration.png)
+![PA_calibration.png](../images/pa_calibration.png)
 
 Das gedruckte Modell kann dann anhand der obersten und untersten Zeile in jedem Band überprüft werden: Artefakte des Druckvorschubs sind dort zu sehen, wo sich die Druckgeschwindigkeiten in jeder Zeile ändern. Sie müssen nur das höchste Band von unten finden, bei dem die oberen Linien noch ähnlich aussehen wie die unteren, ohne sichtbare Unregelmäßigkeiten in der Extrusionsbreite oder Druckvorschubartefakte.
 
@@ -35,7 +35,7 @@ Die Parameter, die beim Aufruf des Makros `PRESSURE_ADVANCE_CALIBRATION` zur Ver
 
 Zählen Sie dann die Anzahl der Bänder von der Unterseite des Drucks, bis die Kontrolllinien ähnlich wie die Testlinien aussehen. Achten Sie auf den roten Bereich, in dem sich die Geschwindigkeit während des Drucks ändert: Suchen Sie das Band, in dem es keine Ausbuchtung oder Lücke gibt, wie in der folgenden Abbildung:
 
-![band count](./images/pa_calibration_band_count.png)
+![band count](../images/pa_calibration_band_count.png)
 
 Verwenden Sie dann die folgende Formel, um den neuen PA-Wert zu ermitteln:
 
