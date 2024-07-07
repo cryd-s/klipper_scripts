@@ -1,3 +1,5 @@
+Übersetzt von: https://github.com/Frix-x/klippain-shaketune/blob/main/docs/is_tuning_generalities.md
+
 # Allgemeines zur Eingabeshaping und -abstimmung
 
 Da immer mehr Menschen diese Makros verwenden, tauchen Fragen zur Interpretation der Ergebnisse oder zur ordnungsgemäßen Abstimmung/Korrektur des mechanischen Verhaltens einer Maschine auf. Dieses Dokument soll einige Anleitungen zur Interpretation bieten. Beachten Sie, dass es keine universelle Methode gibt: Verschiedene Personen können die Ergebnisse unterschiedlich interpretieren oder andere Meinungen haben. Es ist wichtig zu experimentieren und herauszufinden, was für Ihren eigenen 3D-Drucker am besten funktioniert.
