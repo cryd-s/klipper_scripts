@@ -5,10 +5,6 @@ Idee und Anleitung von Frix_x#0161 (https://github.com/Frix-x)
 
 Update 07.07.2024 - Aktualisierungen der Anleitungen
 
-## Beschreibung
-
-Dieses Reopistory erklärt die Makros und Kalibrierungstools, welche dir bei der Einrichtung deines Druckers helfen.
-
 ## Funktionen
 
 | Befehl | Beispielgrafiken |
@@ -26,10 +22,7 @@ Dieses Reopistory erklärt die Makros und Kalibrierungstools, welche dir bei der
   > **Deinstallation alter Versionen**:
   >
   > Lösche die `Calibrate.cfg` und wenn vorhanden, den `K-Shake-Tune Ordner` aus deinem Verzeichnis.
-
-
-  > **Aktualisiere deinen Raspberry**:
-  >
+> 
   > Folgende Bibliotheken und Anwendungen werden benötigt und normalerweise mithilfe des Installationsskriptes aktualisiert. Es kann jedoch passieren, dass während der Installation Fehler auftreten. Des Weiteren sollte das System mindestens Bullseye oder Bookworm sein. Buster ist veraltet und kann inkompatibilitäten auslösen.
   >
 > GitPython==3.1.41
