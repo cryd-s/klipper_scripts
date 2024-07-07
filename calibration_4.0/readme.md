@@ -36,7 +36,7 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
   Die einfachste Installationsmethode ist die Nutzung des erweiterten Bereichs von KIAUH.\
   [KIAUH installieren](https://www.obico.io/blog/install-klipper-with-kiauh/#install-kiauh-on-your-raspberry-pi)\
   Starte KIAUH -> 4) [Erweitert] -> 8) [G-Code Shell Befehl]
-  3. Installiere die Shake-Tune-Python (diese werden in klippy/extras integriert und lassen sich über Befehle später aufrufen
+  3. Installiere die Shake-Tune-Python
      ```bash
      wget -O - https://raw.githubusercontent.com/Frix-x/klippain-shaketune/main/install.sh | bash
      ```
