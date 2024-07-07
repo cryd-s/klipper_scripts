@@ -17,8 +17,7 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
   3. Installiere die Shake-Tune-Python (diese werden in klippy/extras integriert und lassen sich über Befehle später aufrufen      ```bash
      wget -O - https://raw.githubusercontent.com/Frix-x/klippain-shaketune/main/install.sh | bash
      ```
-  4. Füge folgende Konfiguration in deine  `printer.cfg` ein:
-     ```
+  4. Füge folgende Konfiguration in deine  `printer.cfg` ein:```
      [shaketune]
      # result_folder: ~/printer_data/config/ShakeTune_results
      #    The folder where the results will be stored. It will be created if it doesn't exist.
@@ -34,7 +33,7 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
      # timeout: 300
      #    The maximum time in seconds to let Shake&Tune process the CSV files and generate the graphs.
      ```
-  5. Füge folgende Konfiguration in deine `moonraker.conf` ein
+  6. Füge folgende Konfiguration in deine `moonraker.conf` ein
     ```
     [update_manager Klippain-ShakeTune]
     type: git_repo
