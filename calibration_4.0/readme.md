@@ -9,6 +9,18 @@ Update 07.07.2024 - Aktualisierungen der Anleitungen
 
 Dieses Reopistory erklärt die Makros und Kalibrierungstools, welche dir bei der Einrichtung deines Druckers helfen.
 
+## Funktionen
+
+| Befehl | Beispielgrafiken |
+|:------|:-------:|
+|[`FLOW_MULTIPLIER_CALIBRATION`](./makros/Flow.md)<br /><br /> Bestimmt den optimalen Extrusionsfaktor. Dieser kann im Slicer gespeichert werden. | [<img src="./images/flow_calibration.png">](./functions/axes_map_calibration.md) |
+|[`PRESSURE_ADVANCE_CALIBRATION`](./fmakros/PA.md)<br /><br />Bestimmt das optimale PA. Kann im Slicer gespeichert werden. | [<img src="./images/pa_calibration.png">](./functions/axes_map_calibration.md) |
+|[`AXES_MAP_CALIBRATION`](./functions/axes_map_calibration.md)<br /><br />Überprüft, ob Ihr Beschleunigungssensor korrekt funktioniert und findet automatisch den `axes_map`-Parameter von Klipper | [<img src="./images/axesmap_example.png">](./functions/axes_map_calibration.md) |
+|[`COMPARE_BELTS_RESPONSES`](./functions/compare_belts_responses.md)<br /><br />Erstellt ein Differenzdiagramm für Riemenresonanzen, um die relativen Riemenspannungen und das Verhalten der Riemenpfade bei einem CoreXY- oder CoreXZ-Drucker zu überprüfen | [<img src="./images/belts_example.png">](./macros/compare_belts_responses.md) |
+|[`AXES_SHAPER_CALIBRATION`](./mfunctions/axes_shaper_calibrations.md)<br /><br />Erstellt die üblichen Eingabeshaper-Diagramme, um die Eingabeshaper-Filter von Klipper zu optimieren und Ringing/Ghosting zu reduzieren | [<img src="./images/axis_example.png">](./macros/axes_shaper_calibrations.md) |
+|[`CREATE_VIBRATIONS_PROFILE`](./functions/create_vibrations_profile.md)<br /><br />Misst die globalen Maschinenvibrationen in Abhängigkeit von der Richtung und Geschwindigkeit des Werkzeugkopfes, um problematische Bereiche zu finden, in denen der Drucker stärkeren VFAs ausgesetzt sein könnte, um Ihre Slicer-Geschwindigkeitsprofile und TMC-Treiberparameter zu optimieren | [<img src="./images/vibrations_example.png">](./functions/create_vibrations_profile.md) |
+|[`EXCITATE_AXIS_AT_FREQ`](./functions/excitate_axis_at_freq.md)<br /><br />Hält eine spezifische Erregungsfrequenz aufrecht, nützlich, um Parasitenpeaks zu untersuchen und herauszufinden, was resoniert | [<img src="./images/excitate_at_freq_example.png">](./macros/excitate_axis_at_freq.md) |
+
 ## Installation
 
   > **Deinstallation alter Versionen**:
@@ -69,19 +81,7 @@ Dieses Reopistory erklärt die Makros und Kalibrierungstools, welche dir bei der
     primary_branch: main
     managed_services: klipper
 
-## Funktionen
-
-| Befehl | Beispielgrafiken |
-|:------|:-------:|
-|[`FLOW_MULTIPLIER_CALIBRATION`](./makros/Flow.md)<br /><br /> Bestimmt den optimalen Extrusionsfaktor. Dieser kann im Slicer gespeichert werden. | [<img src="./images/flow_calibration.png">](./functions/axes_map_calibration.md) |
-|[`PRESSURE_ADVANCE_CALIBRATION`](./fmakros/PA.md)<br /><br />Bestimmt das optimale PA. Kann im Slicer gespeichert werden. | [<img src="./images/pa_calibration.png">](./functions/axes_map_calibration.md) |
-|[`AXES_MAP_CALIBRATION`](./functions/axes_map_calibration.md)<br /><br />Überprüft, ob Ihr Beschleunigungssensor korrekt funktioniert und findet automatisch den `axes_map`-Parameter von Klipper | [<img src="./images/axesmap_example.png">](./functions/axes_map_calibration.md) |
-|[`COMPARE_BELTS_RESPONSES`](./functions/compare_belts_responses.md)<br /><br />Erstellt ein Differenzdiagramm für Riemenresonanzen, um die relativen Riemenspannungen und das Verhalten der Riemenpfade bei einem CoreXY- oder CoreXZ-Drucker zu überprüfen | [<img src="./images/belts_example.png">](./macros/compare_belts_responses.md) |
-|[`AXES_SHAPER_CALIBRATION`](./mfunctions/axes_shaper_calibrations.md)<br /><br />Erstellt die üblichen Eingabeshaper-Diagramme, um die Eingabeshaper-Filter von Klipper zu optimieren und Ringing/Ghosting zu reduzieren | [<img src="./images/axis_example.png">](./macros/axes_shaper_calibrations.md) |
-|[`CREATE_VIBRATIONS_PROFILE`](./functions/create_vibrations_profile.md)<br /><br />Misst die globalen Maschinenvibrationen in Abhängigkeit von der Richtung und Geschwindigkeit des Werkzeugkopfes, um problematische Bereiche zu finden, in denen der Drucker stärkeren VFAs ausgesetzt sein könnte, um Ihre Slicer-Geschwindigkeitsprofile und TMC-Treiberparameter zu optimieren | [<img src="./images/vibrations_example.png">](./functions/create_vibrations_profile.md) |
-|[`EXCITATE_AXIS_AT_FREQ`](./functions/excitate_axis_at_freq.md)<br /><br />Hält eine spezifische Erregungsfrequenz aufrecht, nützlich, um Parasitenpeaks zu untersuchen und herauszufinden, was resoniert | [<img src="./images/excitate_at_freq_example.png">](./macros/excitate_axis_at_freq.md) |
-
-## Resonanztest-Arbeitsablauf
+## Arbeitsablauf
 
 Ein standardmäßiger Abstimmungsablauf könnte folgendermaßen aussehen:
 
