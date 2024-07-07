@@ -6,7 +6,7 @@
 
 Es gibt viele verschiedene Methoden, um den Durchfluss zu messen und zu kalibrieren, aber keine von ihnen ist wirklich konsistent: Meistens sind die Ergebnisse mehrdeutig und offen für Interpretationen und auch immer abhängig vom verwendeten Slicerprofil. Der Hauptgrund für dieses Kalibrierungsmakro ist es, eine filament- und slicerunabhängige Methode zur Kalibrierung des Fließextrusionsmultiplikators mit einfachen Messwerkzeugen zu finden. Das Ziel ist es, es einfach einzustellen, zu teilen und zu benutzen.
 
-![flow_calibration.png](./images/flow_calibration.png)
+![flow_calibration.png](../images/flow_calibration.png)
 
 Dieses Makro ist parametrisch und die meisten Werte können mit ihren jeweiligen Eingabeparametern angepasst werden. Es arbeitet in zwei Phasen:
   1. Zunächst rufen Sie das Makro `FLOW_MULTIPLIER_CALIBRATION` auf, um eine hohle Schale mit einer bekannten Anzahl von Perimetern auf der Grundlage der [Slic3rPE flow math](https://manual.slic3r.org/advanced/flow-math) zu drucken. Das Makro druckt auch in der Fluidd/Mainsail-Konsole die theoretische Schalendicke, die Sie messen sollten.
