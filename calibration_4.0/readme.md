@@ -50,9 +50,11 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
     managed_services: klipper
 
 ## Makros:
-  `FLOW_MULTIPLIER_CALIBRATION`: Bestimmt den optimalen Extrusionsfaktor. Dieser kann im Slicer gespeichert werden.
-  `COMPUTE_FLOW_MULTIPLIER`: Wird verwendet, um den optimalen Extrusionsfaktor zu berechnen.
-  `PRESSURE_ADVANCE_CALIBRATION`: Bestimmt das optimale PA. Kann im Slicer gespeichert werden.
+`FLOW_MULTIPLIER_CALIBRATION`: Bestimmt den optimalen Extrusionsfaktor. Dieser kann im Slicer gespeichert werden.
+
+`COMPUTE_FLOW_MULTIPLIER`: Wird verwendet, um den optimalen Extrusionsfaktor zu berechnen.
+
+`PRESSURE_ADVANCE_CALIBRATION`: Bestimmt das optimale PA. Kann im Slicer gespeichert werden.
 
 ## Shake&Tune-Funktionen
 
