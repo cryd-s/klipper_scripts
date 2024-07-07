@@ -11,6 +11,21 @@ Dieses Set von Makros und Kalibrierungstools, welche dir bei der Einrichtung dei
 
 ## Installation
 
+  > **Deinstallation alter Versionen**:
+  >
+  > Lösche die `Calibrate.cfg` und wenn vorhanden, den `K-Shake-Tune Ordner` aus deinem Verzeichnis.
+
+
+  > **Aktualisiere deinen Raspberry**:
+  >
+  > Folgende Bibliotheken und Anwendungen werden benötigt und normalerweise mithilfe des Installationsskriptes aktualisiert. Es kann jedoch passieren, dass während der Installation Fehler auftreten. Des Weiteren sollte das System mindestens Bullseye oder Bookworm sein. Buster ist veraltet und kann inkompatibilitäten auslösen.
+  > GitPython==3.1.41
+  > matplotlib==3.8.2
+  > numpy==1.26.2
+  > scipy==1.11.4
+  > PyWavelets==1.6.0
+
+
   1. Kopiere die Makrodatei "calibrate_4.0.cfg" direkt in deine eigene Konfiguration.
   2. Stelle sicher, dass die Klipper-Erweiterung 'gcode_shell_command.py' installiert ist.
   Die einfachste Installationsmethode ist die Nutzung des erweiterten Bereichs von KIAUH.\
