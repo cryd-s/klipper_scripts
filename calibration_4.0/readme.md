@@ -55,19 +55,19 @@ Dieses Reopistory erklärt die Makros und Kalibrierungstools, welche dir bei der
   5. Füge folgende Konfiguration in deine  `printer.cfg` ein:
      ```
      [shaketune]
-     # result_folder: ~/printer_data/config/ShakeTune_results
-     #    The folder where the results will be stored. It will be created if it doesn't exist.
-     # number_of_results_to_keep: 3
-     #    The number of results to keep in the result_folder. The oldest results will
-     #    be automatically deleted after each runs.
-     # keep_raw_csv: False
-     #    If True, the raw CSV files will be kept in the result_folder alongside the
-     #    PNG graphs. If False, they will be deleted and only the graphs will be kept.
-     # show_macros_in_webui: True
-     #    Mainsail and Fluidd doesn't create buttons for "system" macros that are not in the
-     #    printer.cfg file. If you want to see the macros in the webui, set this to True.
-     # timeout: 300
-     #    The maximum time in seconds to let Shake&Tune process the CSV files and generate the graphs.
+      # result_folder: ~/printer_data/config/ShakeTune_results
+      #    Der Ordner, in dem die Ergebnisse gespeichert werden. Er wird erstellt, falls er nicht existiert.
+      # number_of_results_to_keep: 3
+      #    Die Anzahl der Ergebnisse, die im result_folder behalten werden sollen. Die ältesten Ergebnisse werden
+      #    nach jedem Lauf automatisch gelöscht.
+      # keep_raw_csv: False
+      #    Wenn True, werden die rohen CSV-Dateien im result_folder zusammen mit den
+      #    PNG-Grafiken behalten. Wenn False, werden sie gelöscht und nur die Grafiken werden behalten.
+      # show_macros_in_webui: True
+      #    Mainsail und Fluidd erstellen keine Schaltflächen für "System"-Makros, die nicht in der
+      #    printer.cfg-Datei sind. Wenn du die Makros in der WebUI sehen möchtest, setze dies auf True.
+      # timeout: 300
+      #    Die maximale Zeit in Sekunden, die Shake&Tune zum Verarbeiten der CSV-Dateien und zum Erstellen der Grafiken lassen soll.
      ```
   6. Füge folgende Konfiguration in deine `moonraker.conf` ein:
      
