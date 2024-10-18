@@ -41,7 +41,7 @@ The macro uses several parameters to customize the test:
 - SPEED: The velocity to be used during the test (default: the printer's maximum velocity setting).
 - REPEAT: The number of back and forth movements to be performed at each velocity step (50).
 
-##  The BENCHMARK macro 
+##  The BENCHMARK macro (outdated - this Manual section is not updated yet) 
 is intended to test the performance behavior of a 3D printer using a series of short and long movements. The macro allows for an extensive analysis of the printer's behavior regarding different acceleration and velocity parameters.
 
 The macro uses the following parameters to customize the test:
