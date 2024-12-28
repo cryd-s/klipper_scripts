@@ -2,12 +2,9 @@
 ### Übersetzt von Fragmon#2722
 
 
-# Kalibrierungsmakro 3.0
+## outdatet
 
-Update 26.11.2023 - rework - for installing delete all old files (calibrate.cfg, script folder)
-
-## Installation
-
+Please use the new Version V4
 https://github.com/cryd-s/klipper_scripts/tree/main/calibration_4.0
 
 CAUTION:
