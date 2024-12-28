@@ -2,9 +2,9 @@
 ### Übersetzt von Fragmon#2722
 
 
-## outdatet
+## outdated
 
-Please use the new Version V4
+Please use the new Version:
 https://github.com/cryd-s/klipper_scripts/tree/main/calibration_4.0
 
 CAUTION:
