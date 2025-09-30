@@ -1,68 +1,517 @@
+# 🚀 Klipper Speed Test Suite
+
+<div align="center">
+
+[![Demo Video](https://img.youtube.com/vi/LIaPKYyOujQ/0.jpg)](https://www.youtube.com/watch?v=LIaPKYyOujQ)
+
+**Comprehensive performance testing macros for Klipper 3D printers**
+
+Automatically find your printer's maximum safe speeds and accelerations with intelligent skipped-step detection.
+
+![Klipper](https://img.shields.io/badge/Klipper-v0.11.0+-green?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Active-success?style=flat-square)
+
+[Features](#-features) • [Installation](#-installation) • [Quick Start](#-quick-start-guide) • [Documentation](#-macro-reference) • [Troubleshooting](#%EF%B8%8F-safety--troubleshooting)
+
+</div>
+
+---
+
+## 🎯 Features
+
+- ✅ **MAX_VELOCITY_TEST** - Find maximum speeds per axis
+- ✅ **MAX_ACCEL_TEST** - Test acceleration limits with auto-detection
+- ✅ **SCV_TEST** - Optimize Square Corner Velocity
+- ✅ **BENCHMARK** - Reproducible performance testing with seeded random patterns
+- ✅ **Automatic skipped-step detection** - Stops before damage occurs
+- ✅ **Cartesian & CoreXY support** - Optimized for both kinematics
+- ✅ **Live progress feedback** - Know exactly what's happening
+- ✅ **Smart homing** - Only homes what's needed
+
+> [!WARNING]
+> **These tests measure mechanical limits - NOT print quality limits!**
+> 
+> Values found here are suitable for travel moves and understanding mechanical capabilities. For actual printing, always test with your specific materials and quality requirements.
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+
+- Klipper firmware v0.11.0-276 or higher
+- Working printer configuration
+- Console access to Klipper
+
+### Step 1: Download
+
+Download `speed_test.cfg` and place it in your Klipper config directory (usually `~/printer_data/config/`).
+
+### Step 2: Configure Printer Type
+
+Edit `speed_test.cfg` and set your printer structure:
+
+```gcode
+[gcode_macro _USER_VARIABLES]
+variable_structure: "cartesian"  # Options: "cartesian" or "corexy"
+gcode:
+```
+
+### Step 3: Update printer.cfg
+
+Add these lines to your `printer.cfg`:
+
+```gcode
+[include speed_test.cfg]
+
+# Required modules for step detection
+[respond]
+[endstop_phase stepper_x]
+[endstop_phase stepper_y]
+```
+
+### Step 4: Restart Klipper
+
+```
+FIRMWARE_RESTART
+```
+
+> [!TIP]
+> Verify installation by typing `MAX_VELOCITY_TEST` in your console - you should see it autocomplete.
+
+---
+
+## 🚀 Quick Start Guide
+
+<details>
+<summary><b>📺 Watch Before Testing</b></summary>
+
+- Ensure your printer is properly maintained (tight belts, lubricated rails)
+- Clear the bed of any objects
+- Be ready to hit Emergency Stop if needed
+- Have a way to monitor console output
+
+</details>
+
+### Step 1: Test Maximum Velocity
+
+Start conservative and increase gradually:
+
+```gcode
+# X-Axis - Full bed length movements
+MAX_VELOCITY_TEST AXIS=X MIN_VELOCITY=50 MAX_VELOCITY=300 VELOCITY_INCREMENT=25 ACCEL=3000
+
+# Y-Axis - Often slower on bed-slingers
+MAX_VELOCITY_TEST AXIS=Y MIN_VELOCITY=50 MAX_VELOCITY=250 VELOCITY_INCREMENT=25 ACCEL=3000
+```
+
+**🎧 Listen for:**
+- Grinding or rattling sounds
+- Motor skipping
+- Belt slipping
+
+**✅ Validation test:**
+```gcode
+MAX_VELOCITY_TEST AXIS=X MAX_VELOCITY=250 DISTANCE=short REPEAT=100
+```
+
+### Step 2: Test Maximum Acceleration
+
+```gcode
+# X-Axis
+MAX_ACCEL_TEST AXIS=X MIN_ACCEL=500 MAX_ACCEL=5000 ACCEL_INCREMENT=500 SPEED=150
+
+# Y-Axis
+MAX_ACCEL_TEST AXIS=Y MIN_ACCEL=500 MAX_ACCEL=4000 ACCEL_INCREMENT=500 SPEED=150
+```
+
+> [!NOTE]
+> The test automatically stops if skipped steps are detected!
+
+**✅ High-repetition validation:**
+```gcode
+MAX_ACCEL_TEST AXIS=X MAX_ACCEL=4000 REPEAT=200
+```
+
+### Step 3: Test Square Corner Velocity
+
+```gcode
+SCV_TEST MIN_SCV=1 MAX_SCV=15 SPEED=150 ACCEL=3000 CORNER_SIZE=50
+```
+
+### Step 4: Full System Benchmark
+
+```gcode
+BENCHMARK SPEED=200 ACCEL=3000 SCV=8 ITERATIONS=5 SEED=12345
+```
+
+> [!TIP]
+> Use the same `SEED` value to get identical test patterns - perfect for A/B testing!
+
+---
+
+## 📖 Macro Reference
+
+<details open>
+<summary><h3>MAX_VELOCITY_TEST</h3></summary>
+
+Tests maximum velocity on a single axis with configurable distance modes.
+
+#### Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `AXIS` | `X` | Axis to test: `X` or `Y` |
+| `MIN_VELOCITY` | `10` | Starting velocity (mm/s) |
+| `MAX_VELOCITY` | `300` | Maximum velocity (mm/s) |
+| `VELOCITY_INCREMENT` | `10` | Step size between tests (mm/s) |
+| `ACCEL` | max_accel | Acceleration value (mm/s²) |
+| `DISTANCE` | `full` | `full` = max axis length, `short` = random shorter distances |
+| `REPEAT` | `5` / `50` | Repetitions per velocity (5 for full, 50 for short) |
+
+#### Examples
+
+```gcode
+# Conservative X-axis test
+MAX_VELOCITY_TEST AXIS=X MAX_VELOCITY=200
+
+# Aggressive test with fine steps
+MAX_VELOCITY_TEST AXIS=X MIN_VELOCITY=200 MAX_VELOCITY=500 VELOCITY_INCREMENT=10 ACCEL=5000
+
+# Quick validation with short movements
+MAX_VELOCITY_TEST AXIS=Y MAX_VELOCITY=300 DISTANCE=short REPEAT=200
+```
+
+#### Console Output Example
+
+```
+===== MAX_VELOCITY_TEST START =====
+Axis: X | Accel: 3000 mm/s² | Range: 50-300 mm/s
+Steps: 25 mm/s | Repeats: 5 | Distance mode: full
+Test area: 20.0 to 330.0 mm (Range: 310.0 mm)
+===================================
+[0%] Testing 50 mm/s @ 3000 mm/s²
+[20%] Testing 100 mm/s @ 3000 mm/s²
+[40%] Testing 150 mm/s @ 3000 mm/s²
+...
+```
+
+</details>
+
+<details>
+<summary><h3>MAX_ACCEL_TEST</h3></summary>
+
+Tests maximum acceleration with automatic skipped-step detection.
+
+#### Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `AXIS` | `X` | Axis to test: `X` or `Y` |
+| `MIN_ACCEL` | `100` | Starting acceleration (mm/s²) |
+| `MAX_ACCEL` | `1000` | Maximum acceleration (mm/s²) |
+| `ACCEL_INCREMENT` | `100` | Step size between tests (mm/s²) |
+| `SPEED` | max_velocity | Velocity for test (mm/s) |
+| `REPEAT` | `50` | Repetitions per acceleration value |
+| `MIN_DISTANCE` | `50` | Minimum movement distance (mm) |
+
+#### Examples
+
+```gcode
+# Standard test
+MAX_ACCEL_TEST AXIS=X MIN_ACCEL=1000 MAX_ACCEL=8000 ACCEL_INCREMENT=500
+
+# High-speed acceleration test
+MAX_ACCEL_TEST AXIS=X MIN_ACCEL=2000 MAX_ACCEL=10000 SPEED=200 REPEAT=100
+
+# Fine-tuning near the limit
+MAX_ACCEL_TEST AXIS=Y MIN_ACCEL=4000 MAX_ACCEL=5000 ACCEL_INCREMENT=100
+```
+
+#### Console Output Example
+
+```
+===== MAX_ACCEL_TEST START =====
+Axis: X | Speed: 150 mm/s | Range: 500-5000 mm/s²
+Steps: 500 mm/s² | Repeats: 50 | Min distance: 50 mm
+Test area: 20.0 to 330.0 mm (Range: 310.0 mm)
+================================
+[0%] Testing 150 mm/s @ 500 mm/s²
+[11%] Testing 150 mm/s @ 1000 mm/s²
+[22%] Testing 150 mm/s @ 1500 mm/s²
+...
+```
+
+</details>
+
+<details>
+<summary><h3>SCV_TEST</h3></summary>
+
+Tests Square Corner Velocity using three different corner patterns.
+
+#### Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `MIN_SCV` | `1` | Starting SCV value (mm/s) |
+| `MAX_SCV` | `20` | Maximum SCV value (mm/s) |
+| `SCV_INCREMENT` | `1` | Step size between tests (mm/s) |
+| `SPEED` | `100` | Test velocity (mm/s) |
+| `ACCEL` | `3000` | Acceleration value (mm/s²) |
+| `CORNER_SIZE` | `50` | Pattern dimensions (mm) |
+| `REPEAT` | `3` | Pattern repetitions per SCV value |
+
+#### Test Patterns
+
+1. **Square Pattern** - Classic 90° corners for baseline performance
+2. **Figure-8 Pattern** - Diagonal movements with direction changes
+3. **Zigzag Pattern** - Extreme rapid direction reversals
+
+#### Examples
+
+```gcode
+# Standard SCV test
+SCV_TEST MIN_SCV=1 MAX_SCV=15 SPEED=150 ACCEL=3000
+
+# Fine-tuning SCV
+SCV_TEST MIN_SCV=8 MAX_SCV=12 SCV_INCREMENT=0.5 SPEED=200
+
+# Quick test with smaller pattern
+SCV_TEST MAX_SCV=10 CORNER_SIZE=30 REPEAT=2
+```
+
+#### Console Output Example
+
+```
+======== SCV_TEST START ========
+Speed: 150 mm/s | Accel: 3000 mm/s²
+SCV Range: 1-15 mm/s | Steps: 1 mm/s
+Pattern size: 50x50 mm | Repeats: 3
+Test patterns: Square, Figure-8, Zigzag
+===================================
+[0%] Testing SCV: 1 mm/s (3 patterns)
+[7%] Testing SCV: 2 mm/s (3 patterns)
+[14%] Testing SCV: 3 mm/s (3 patterns)
+...
+```
+
+</details>
+
+<details>
+<summary><h3>BENCHMARK</h3></summary>
+
+Comprehensive performance test with reproducible random movement patterns.
+
+#### Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `SPEED` | max_velocity | Test velocity (mm/s) |
+| `ACCEL` | max_accel | Acceleration value (mm/s²) |
+| `SCV` | printer setting | Square corner velocity (mm/s) |
+| `ITERATIONS` | `1` | Number of complete test cycles |
+| `BOUND` | `40` | Safety margin from bed edges (mm) |
+| `SMALLPATTERNSIZE` | `20` | Dimensions of small pattern (mm) |
+| `ZPOS` | `20` | Z-height during test (mm) |
+| `CRUISE_RATIO` | `0.0` | Minimum cruise ratio (0 = disabled) |
+| `SEED` | `12345` | Random seed for reproducible patterns |
+
+#### Test Patterns
+
+Each iteration includes:
+- Large diagonal movements
+- Full bed perimeter box
+- Small centered diagonal movements  
+- Small centered box pattern
+- Pseudo-random fill movements (seeded)
+
+#### Examples
+
+```gcode
+# Standard benchmark
+BENCHMARK SPEED=250 ACCEL=4000 SCV=8 ITERATIONS=5
+
+# Stress test with many iterations
+BENCHMARK SPEED=300 ACCEL=6000 SCV=10 ITERATIONS=20 SEED=42
+
+# A/B comparison test (use same seed!)
+BENCHMARK SPEED=200 ACCEL=3000 ITERATIONS=10 SEED=99999
+```
+
+#### Console Output Example
+
+```
+======== BENCHMARK START ========
+Speed: 250 mm/s | Accel: 4000 mm/s² | SCV: 8 mm/s
+Iterations: 5 | Seed: 12345 | Z-height: 20 mm
+Test area: X40-310 Y40-310 mm
+Small pattern: 20x20 mm at center
+==================================
+Running iteration 1/5...
+Running iteration 2/5...
+...
+```
+
+> [!TIP]
+> **Reproducible Testing:** Using the same `SEED` generates identical movement patterns. Perfect for:
+> - Comparing before/after modifications
+> - Testing different belt tensions
+> - Evaluating Input Shaper settings
+> - Benchmarking firmware updates
+
+</details>
+
+---
+
+## 🎓 Recommended Testing Workflow
+
+### Phase 1: Find Maximum Velocity 🏃
+
+**Goal:** Determine the fastest safe speed for each axis.
+
+```gcode
+# Start conservative
+MAX_VELOCITY_TEST AXIS=X MIN_VELOCITY=50 MAX_VELOCITY=200 DISTANCE=full
+
+# Push boundaries if successful
+MAX_VELOCITY_TEST AXIS=X MIN_VELOCITY=200 MAX_VELOCITY=400 VELOCITY_INCREMENT=50
+
+# Validate with short movements
+MAX_VELOCITY_TEST AXIS=X MAX_VELOCITY=350 DISTANCE=short REPEAT=100
+```
+
+**🎧 Stop immediately if you hear:**
+- Grinding noises
+- Belt slipping sounds
+- Motor skipping
+- Excessive vibration
+
+> [!NOTE]
+> **Bed-slinger printers:** Y-axis typically achieves 20-40% lower speeds than X-axis due to bed mass.
+
+### Phase 2: Find Maximum Acceleration 🚀
+
+**Goal:** Test acceleration limits with automatic safety cutoff.
+
+```gcode
+# Initial test
+MAX_ACCEL_TEST AXIS=X MIN_ACCEL=1000 MAX_ACCEL=5000 SPEED=150
+
+# If successful, push higher
+MAX_ACCEL_TEST AXIS=X MIN_ACCEL=5000 MAX_ACCEL=10000 ACCEL_INCREMENT=500
+
+# High-repetition validation
+MAX_ACCEL_TEST AXIS=X MAX_ACCEL=6000 REPEAT=200
+```
+
+> [!IMPORTANT]
+> The test will automatically stop if skipped steps are detected, but you should still monitor for mechanical problems!
+
+### Phase 3: Optimize Square Corner Velocity 📐
+
+**Goal:** Find the best SCV for sharp corners without stuttering.
+
+```gcode
+SCV_TEST MIN_SCV=1 MAX_SCV=15 SPEED=150 ACCEL=3000
+```
+
+Watch for resonance or stuttering during rapid direction changes.
+
+### Phase 4: Apply Safety Margins 🛡️
+
+Never run at absolute maximum values! Apply these reductions:
+
+| Parameter | Found Value | Safety Margin | Final Value |
+|-----------|-------------|---------------|-------------|
+| **Velocity** | 400 mm/s | -20% | **320 mm/s** |
+| **Acceleration** | 8000 mm/s² | -30% | **5600 mm/s²** |
+| **SCV** | 12 mm/s | -10% | **11 mm/s** |
+
+**Why safety margins?**
+- ✅ Protects mechanical components from wear
+- ✅ Prevents layer shifting under real printing conditions
+- ✅ Accounts for filament weight and nozzle drag
+- ✅ Provides headroom for environmental factors
+
+### Phase 5: Final Validation ✅
+
+Run comprehensive benchmarks with your final values:
+
+```gcode
+BENCHMARK SPEED=320 ACCEL=5600 SCV=11 ITERATIONS=10 SEED=12345
+```
+
+This should complete without any errors or step loss.
+
+> [!TIP]
+> **Document everything!** Keep a log of your test results, settings, and any observations. This is invaluable when troubleshooting later.
+
+---
+
+## ⚠️ Safety & Troubleshooting
+
+### 🚨 Emergency Stop Protocol
+
+> [!CAUTION]
+> **These macros CANNOT be gracefully stopped mid-execution!**
+
+If you encounter problems during testing:
+
+1. **Immediately press Emergency Stop** (or power off)
+2. Inspect printer for mechanical issues
+3. Check belt tension, pulley set screws, motor mounts
+4. Lower test parameters by 30-40%
+5. Restart with more conservative values
 
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/LIaPKYyOujQ/0.jpg)](https://www.youtube.com/watch?v=LIaPKYyOujQ)
+### Printer Configuration Differences
 
-# Introduction:
-The macros MAX_VELOCITY_TEST, MAX_ACCEL_TEST, and BENCHMARK have been developed to test the maximum acceleration and velocity of the 3D printer along the X and Y axes. They perform a series of test movements at different acceleration and velocity values to examine the printer's performance under different settings.
+#### Cartesian Mode
+- Tests single axis independently
+- Only homes the axis being tested
+- Faster testing process
+- Less motor wear
 
-## CAUTION:
-Only the physical properties are being tested. These can be used, for example, for travel movements. Whether these values can be realized by the hotend must be determined separately. 
+#### CoreXY Mode  
+- Always homes both X and Y (mechanically coupled)
+- Both motors active during all tests
+- More thorough system testing
+- Accounts for motor interaction
 
-# Preparation:
-- Ensure that the 3D printer is correctly set up and all axes are free to move.
-- Copy the speed_test.cfg file into your configuration and select your printer type within the file (cartesian or corexy).
-- Add [include speed_test.cfg] and [respond], [endstop_phase stepper_x], [endstop_phase stepper_y] to your printer.cfg file.
+Configure in `_USER_VARIABLES` macro.
 
-# Explanation of the Macros:
-## CAUTION -- The macros can only be stopped by emergency stop
+## 📚 Additional Resources
 
-## The MAX_VELOCITY_TEST 
-is designed to test the maximum velocity of a 3D printer along the X and Y axes. It performs a series of test movements at different velocities, allowing you to examine the printer's performance at various speeds.
+- [Ellis' Print Tuning Guide](https://ellis3dp.com/Print-Tuning-Guide/) - Original inspiration
+- [Klipper Documentation](https://www.klipper3d.org/) - Official Klipper docs
+- [Klipper Discourse](https://klipper.discourse.group/) - Community support
 
-The macro uses several parameters to customize the test:
+---
 
-- MIN_VELOCITY: The minimum velocity at which the test should start (default: 10 mm/s).
-- MAX_VELOCITY: The maximum velocity at which the test should be performed (default: 300 mm/s).
-- VELOCITY_INCREMENT: The increment in velocity for each step of the test (default: 10 mm/s).
-- AXIS: The axis along which the test should be performed (default: "X").
-- ACCEL: The acceleration value to be used during the test (default: the printer's maximum acceleration setting).
-- DISTANCE: Specifies the distance for the test movements, either "full" (default) or "short". If set to "full", the macro will use the maximum available distance on the axis; if set to "short", it will use a random distance for each test movement that ensures the specified velocity is reached.
-- REPEAT: The number of back and forth movements to be performed at each velocity step (default: 5 for "DISTANCE=full", 50 for "short").
+## 📄 License
 
-## The MAX_ACCEL_TEST 
-has been developed to test the maximum acceleration of a 3D printer along the X and Y axes. It performs a series of test movements with different acceleration values, allowing you to examine the printer's performance at different acceleration rates. 
+MIT License - Feel free to use, modify, and share!
 
-The macro uses several parameters to customize the test:
+---
 
-- MIN_ACCEL: The minimum acceleration at which the test should start (default: 100 mm/s^2).
-- MAX_ACCEL: The maximum acceleration at which the test should be performed (default: 1000 mm/s^2).
-- ACCEL_INCREMENT: The increment in acceleration for each step of the test (default: 100 mm/s^2).
-- AXIS: The axis along which the test should be performed (default: "X").
-- SPEED: The velocity to be used during the test (default: the printer's maximum velocity setting).
-- REPEAT: The number of back and forth movements to be performed at each velocity step (50).
+## 🎬 Credits
 
-##  The BENCHMARK macro (outdated - this Manual section is not updated yet) 
-is intended to test the performance behavior of a 3D printer using a series of short and long movements. The macro allows for an extensive analysis of the printer's behavior regarding different acceleration and velocity parameters.
+- **Original Concept:** [Ellis' Print Tuning Guide](https://ellis3dp.com/Print-Tuning-Guide/articles/determining_max_speeds_accels.html)
+- **Implementation:** Fragmon [crydteam]
+- **Updated:** 2025
+- **Minimum Klipper Version:** v0.11.0-276
 
-The macro uses the following parameters to customize the test:
-- MAX_ACCEL: The maximum acceleration at which the test should be performed (default: the printer's maximum acceleration setting).
-- MAX_VELOCITY: The maximum velocity at which the test should be performed (default: the printer's maximum velocity setting).
-- MOVEMENTS_SHORT: The number of short movements to be performed (default: 200).
-- MOVEMENTS_LONG: The number of long movements to be performed (default: 200).
-- RANDOM_SEED: A seed value for random number generation to determine the positions of the movements (default: 42).
-The macro starts by homing the axes and setting the Z-axis to 20. It then adjusts the printer's acceleration and velocity limits according to the given or default parameters.
+---
 
-After that, the macro performs the specified number of short movements. For each movement, the macro calculates a random position along the X and Y axes, ensuring that the movement stays within the valid range of each axis. It uses the given or default seed value for random generation to determine the positions. Similarly, the macro then performs the specified number of long movements, again with randomly calculated positions based on the seed value. At the end of the test, the macro performs homing of the X and Y axes again and resets the printer's velocity and acceleration limits to their original values. This macro is very useful for analyzing and optimizing the printer's behavior under different conditions, especially regarding velocity and acceleration settings. It can also be used to identify potential issues with the printer's hardware by monitoring its behavior at different velocity and acceleration parameters.
+<div align="center">
 
-# Recommended Testing Procedure
-1. Maximum Velocity
-The MAX_VELOCITY_TEST macro should be executed on the X-axis. Gradually approach the maximum velocity step by step. The full distance should be used. If the printer produces "unfavorable" noises, the macro should be stopped by activating the emergency stop.
-!!Caution!! Despite high noises, there may be no step loss. In case of doubt, action should be taken by listening in addition to technical detection.
-The velocity that does not produce noises should be validated using the short distance. This test should then be performed analogously on the Y-axis. Note that bed-slinger printers on the Y-axis may achieve a lower velocity. The determined maximum velocity should be reduced by 20% for safety and material protection.
+**⚠️ Remember: These are diagnostic tools!**
 
-2. Maximum Acceleration
-The MAX_ACCEL_TEST macro should be executed on the X-axis. Gradually approach the maximum acceleration step by step. This macro has an automatic self-shutdown in case of step loss. However, if the printer produces "unfavorable" noises, it should be stopped by activating the emergency stop. The acceleration that does not produce noises should be validated with a REPEAT of 200. This test should then be performed analogously on the Y-axis. Note that bed-slinger printers on the Y-axis may achieve a lower acceleration. The determined maximum acceleration should be reduced by 30% for safety and material protection.
+Always apply appropriate safety margins to values you find.
 
-3. Final Steps:
-The values should be validated with the BENCHMARK macro. The maximum acceleration and velocity values that the printer could achieve without step loss or vibrations should be noted. The printer's settings should be updated accordingly, and the changes should be saved. Final test prints should be performed to verify print quality and performance at the determined maximum values.
- maximum values.
+Your print quality requirements may demand lower values than mechanical limits.
+
+**Happy testing! 🚀**
+
+</div>
