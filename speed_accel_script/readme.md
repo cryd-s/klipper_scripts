@@ -25,9 +25,6 @@ Automatically find your printer's maximum safe speeds and accelerations with int
 - ✅ **SCV_TEST** - Optimize Square Corner Velocity
 - ✅ **BENCHMARK** - Reproducible performance testing with seeded random patterns
 - ✅ **Automatic skipped-step detection** - Stops before damage occurs
-- ✅ **Cartesian & CoreXY support** - Optimized for both kinematics
-- ✅ **Live progress feedback** - Know exactly what's happening
-- ✅ **Smart homing** - Only homes what's needed
 
 > [!WARNING]
 > **These tests measure mechanical limits - NOT print quality limits!**
