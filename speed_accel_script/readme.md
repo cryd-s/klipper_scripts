@@ -81,16 +81,6 @@ FIRMWARE_RESTART
 
 ## 🚀 Quick Start Guide
 
-<details>
-<summary><b>📺 Watch Before Testing</b></summary>
-
-- Ensure your printer is properly maintained (tight belts, lubricated rails)
-- Clear the bed of any objects
-- Be ready to hit Emergency Stop if needed
-- Have a way to monitor console output
-
-</details>
-
 ### Step 1: Test Maximum Velocity
 
 Start conservative and increase gradually:
